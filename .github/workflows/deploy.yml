@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -21,8 +23,14 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Make build script executable
+        run: chmod +x build.sh
+
       - name: Build
-        run: ./build.sh
+        run: |
+          ./build.sh
+          ls -la dist/
+          echo "Build completed"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
@@ -30,3 +38,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
+          force_orphan: true
