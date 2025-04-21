@@ -8,9 +8,6 @@ import type {
 
 import Article from 'src/components/Article'
 
-// Import static data
-import articlesData from 'src/static/data/articles.json'
-
 export const QUERY: TypedDocumentNode<ArticlesQuery, ArticlesQueryVariables> =
   gql`
     query ArticlesQuery {
@@ -36,12 +33,9 @@ export const Failure = ({
 export const Success = ({
   articles,
 }: CellSuccessProps<ArticlesQuery, ArticlesQueryVariables>) => {
-  // Use static data in production
-  const data = process.env.NODE_ENV === 'production' ? articlesData : articles
-
   return (
     <>
-      {data.map((article) => (
+      {articles.map((article) => (
         <Article key={article.id} article={article} />
       ))}
     </>

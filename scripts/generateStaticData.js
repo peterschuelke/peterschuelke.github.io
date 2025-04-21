@@ -2,8 +2,10 @@ const fs = require('fs')
 const path = require('path')
 const fetch = require('node-fetch')
 
-// Create the static directory if it doesn't exist
+// Create static directory
 const staticDir = path.join(process.cwd(), 'web', 'static', 'data')
+
+// Create the directory if it doesn't exist
 if (!fs.existsSync(staticDir)) {
   fs.mkdirSync(staticDir, { recursive: true })
 }
@@ -57,13 +59,12 @@ async function generateStaticData() {
       }
     }
 
-    // Write the articles to a JSON file
+    // Write the articles to JSON files
     fs.writeFileSync(
       path.join(staticDir, 'articles.json'),
       JSON.stringify(data.data.posts, null, 2)
     )
 
-    // Generate individual article files
     data.data.posts.forEach(post => {
       fs.writeFileSync(
         path.join(staticDir, `article-${post.id}.json`),
