@@ -16,19 +16,20 @@ const fallbackData = {
   createdAt: new Date().toISOString()
 }
 
-export const QUERY: TypedDocumentNode<
-  FindArticleQuery,
-  FindArticleQueryVariables
-> = gql`
-  query FindArticleQuery($id: Int!) {
-    article: post(id: $id) {
-      id
-      title
-      body
-      createdAt
-    }
-  }
-`
+// Only use GraphQL in development
+const QUERY: TypedDocumentNode<FindArticleQuery, FindArticleQueryVariables> | null =
+  process.env.NODE_ENV === 'development'
+    ? gql`
+        query FindArticleQuery($id: Int!) {
+          article: post(id: $id) {
+            id
+            title
+            body
+            createdAt
+          }
+        }
+      `
+    : null
 
 export const Loading = () => <div>Loading...</div>
 
@@ -43,9 +44,9 @@ export const Failure = ({
 export const Success = ({
   article,
 }: CellSuccessProps<FindArticleQuery, FindArticleQueryVariables>) => {
-  // In production, use the article from props (which will be pre-rendered)
+  // In production, use the fallback data
   // In development, use the GraphQL data
-  const data = article || fallbackData
+  const data = process.env.NODE_ENV === 'development' ? article : fallbackData
 
   return <Article article={data} />
 }
