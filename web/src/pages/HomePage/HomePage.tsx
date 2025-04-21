@@ -2,15 +2,18 @@
 import { Metadata } from '@redwoodjs/web'
 
 import styles from './HomePage.module.css'
+import ArticlesCell from 'src/components/ArticlesCell'
 
 const HomePage = () => {
   return (
     <>
       <Metadata title="Home" description="Home page" />
-      <div className={styles['home-content']}>
+      {/* <div className={styles['home-content']}>
         <h2>Welcome to My Profile</h2>
         <p>This is my personal website built with RedwoodJS.</p>
-      </div>
+      </div> */}
+      <ArticlesCell />
+
     </>
   )
 }
