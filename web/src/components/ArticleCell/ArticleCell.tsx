@@ -50,3 +50,14 @@ export const Success = ({
 
   return <Article article={data} />
 }
+
+// Add default export
+const ArticleCell = {
+  Loading,
+  Empty,
+  Failure,
+  Success,
+  QUERY,
+}
+
+export default ArticleCell

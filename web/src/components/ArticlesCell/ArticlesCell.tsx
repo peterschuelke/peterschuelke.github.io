@@ -58,3 +58,14 @@ export const Success = ({
     </>
   )
 }
+
+// Add default export
+const ArticlesCell = {
+  Loading,
+  Empty,
+  Failure,
+  Success,
+  QUERY,
+}
+
+export default ArticlesCell
