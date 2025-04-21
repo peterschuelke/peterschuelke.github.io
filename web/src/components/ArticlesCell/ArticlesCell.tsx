@@ -8,17 +8,15 @@ import type {
 
 import Article from 'src/components/Article'
 
-// Import static data in production
-let staticData = null
-if (process.env.NODE_ENV === 'production') {
-  import('../../static/data/articles.json')
-    .then(module => {
-      staticData = module.default
-    })
-    .catch(error => {
-      console.error('Error loading static data:', error)
-    })
-}
+// Fallback data in case the database is not available
+const fallbackData = [
+  {
+    id: 1,
+    title: "Welcome to the Blog",
+    body: "This is a sample article. The database is not available in this environment.",
+    createdAt: new Date().toISOString()
+  }
+]
 
 export const QUERY: TypedDocumentNode<ArticlesQuery, ArticlesQueryVariables> =
   gql`
@@ -45,12 +43,9 @@ export const Failure = ({
 export const Success = ({
   articles,
 }: CellSuccessProps<ArticlesQuery, ArticlesQueryVariables>) => {
-  // Use static data in production, GraphQL data in development
-  const data = process.env.NODE_ENV === 'production' ? staticData : articles
-
-  if (!data) {
-    return <div>Loading articles...</div>
-  }
+  // In production, use the articles from props (which will be pre-rendered)
+  // In development, use the GraphQL data
+  const data = articles || fallbackData
 
   return (
     <>
