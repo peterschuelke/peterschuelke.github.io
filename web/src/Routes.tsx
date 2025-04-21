@@ -19,7 +19,6 @@ import NotFoundPage from 'src/pages/NotFoundPage'
 const Routes = () => {
   return (
     <Router>
-      <Route path="/article" page={ArticlePage} name="article" />
       <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
         <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
         <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />

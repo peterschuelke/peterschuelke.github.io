@@ -35,12 +35,5 @@ export const Failure = ({
 export const Success = ({
   article,
 }: CellSuccessProps<FindArticleQuery, FindArticleQueryVariables>) => {
-  // In production, we'll use the static data that was pre-rendered
-  if (process.env.NODE_ENV === 'production') {
-    // The article data will be passed as a prop from the page component
-    return <Article article={article} />
-  }
-
-  // In development, use the GraphQL data
   return <Article article={article} />
 }
