@@ -9,10 +9,11 @@ import type {
 import Article from 'src/components/Article'
 
 // Import static data in production
-const getStaticData = (id: number) => {
+const getStaticData = async (id: number) => {
   if (process.env.NODE_ENV === 'production') {
     try {
-      return require(`../../static/data/article-${id}.json`)
+      const module = await import(`../../static/data/article-${id}.json`)
+      return module.default
     } catch (e) {
       console.error('Error loading static data:', e)
       return null
@@ -45,12 +46,12 @@ export const Failure = ({
   <div style={{ color: 'red' }}>Error: {error.message}</div>
 )
 
-export const Success = ({
+export const Success = async ({
   article,
 }: CellSuccessProps<FindArticleQuery, FindArticleQueryVariables>) => {
   // Use static data in production, GraphQL data in development
   const data = process.env.NODE_ENV === 'production'
-    ? getStaticData(article.id)
+    ? await getStaticData(article.id)
     : article
 
   if (!data) {

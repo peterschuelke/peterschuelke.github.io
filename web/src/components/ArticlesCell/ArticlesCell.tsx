@@ -9,9 +9,16 @@ import type {
 import Article from 'src/components/Article'
 
 // Import static data in production
-const staticData = process.env.NODE_ENV === 'production'
-  ? require('../../static/data/articles.json')
-  : null
+let staticData = null
+if (process.env.NODE_ENV === 'production') {
+  import('../../static/data/articles.json')
+    .then(module => {
+      staticData = module.default
+    })
+    .catch(error => {
+      console.error('Error loading static data:', error)
+    })
+}
 
 export const QUERY: TypedDocumentNode<ArticlesQuery, ArticlesQueryVariables> =
   gql`
@@ -40,6 +47,10 @@ export const Success = ({
 }: CellSuccessProps<ArticlesQuery, ArticlesQueryVariables>) => {
   // Use static data in production, GraphQL data in development
   const data = process.env.NODE_ENV === 'production' ? staticData : articles
+
+  if (!data) {
+    return <div>Loading articles...</div>
+  }
 
   return (
     <>
