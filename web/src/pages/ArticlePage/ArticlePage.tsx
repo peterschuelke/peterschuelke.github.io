@@ -10,7 +10,13 @@ const ArticlePage = ({ id }: Props) => {
     <>
       <Metadata title="Article" description="Article page" />
 
-      <ArticleCell id={id} />
+      {process.env.NODE_ENV === 'production' ? (
+        // In production, we'll use the static data
+        <ArticleCell id={id} />
+      ) : (
+        // In development, use the GraphQL data
+        <ArticleCell id={id} />
+      )}
     </>
   )
 }
