@@ -33,17 +33,17 @@ const QUERY: TypedDocumentNode<ArticlesQuery, ArticlesQueryVariables> | null =
       `
     : null
 
-export const Loading = () => <div>Loading...</div>
+const Loading = () => <div>Loading...</div>
 
-export const Empty = () => <div>Empty</div>
+const Empty = () => <div>Empty</div>
 
-export const Failure = ({
+const Failure = ({
   error,
 }: CellFailureProps<ArticlesQueryVariables>) => (
   <div style={{ color: 'red' }}>Error: {error.message}</div>
 )
 
-export const Success = ({
+const Success = ({
   articles,
 }: CellSuccessProps<ArticlesQuery, ArticlesQueryVariables>) => {
   // In production, use the fallback data
@@ -59,13 +59,5 @@ export const Success = ({
   )
 }
 
-// Add default export
-const ArticlesCell = {
-  Loading,
-  Empty,
-  Failure,
-  Success,
-  QUERY,
-}
-
-export default ArticlesCell
+// Export the cell components individually
+export { Loading, Empty, Failure, Success, QUERY }
