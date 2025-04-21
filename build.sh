@@ -25,9 +25,15 @@ touch web/dist/.nojekyll
 echo "Copying built files..."
 cp -r web/dist/* dist/
 
+# Ensure static data is copied
+echo "Copying static data..."
+mkdir -p dist/static/data
+cp -r web/static/data/* dist/static/data/
+
 # List the contents of dist directory
 echo "Contents of dist directory:"
 ls -la dist/
+ls -la dist/static/data/
 
 # Clean up
 echo "Cleaning up..."

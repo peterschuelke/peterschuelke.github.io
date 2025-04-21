@@ -8,6 +8,11 @@ import type {
 
 import Article from 'src/components/Article'
 
+// Import static data in production
+const staticData = process.env.NODE_ENV === 'production'
+  ? require('../../static/data/articles.json')
+  : null
+
 export const QUERY: TypedDocumentNode<ArticlesQuery, ArticlesQueryVariables> =
   gql`
     query ArticlesQuery {
@@ -33,9 +38,12 @@ export const Failure = ({
 export const Success = ({
   articles,
 }: CellSuccessProps<ArticlesQuery, ArticlesQueryVariables>) => {
+  // Use static data in production, GraphQL data in development
+  const data = process.env.NODE_ENV === 'production' ? staticData : articles
+
   return (
     <>
-      {articles.map((article) => (
+      {data.map((article) => (
         <Article key={article.id} article={article} />
       ))}
     </>

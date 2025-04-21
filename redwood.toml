@@ -14,7 +14,7 @@
     # See https://redwoodjs.com/docs/environment-variables#web
   ]
   # Add static site configuration
-  staticAssets = { path = "public" }
+  staticAssets = { path = ["public", "static"] }
 [api]
   port = 8911
 [browser]
