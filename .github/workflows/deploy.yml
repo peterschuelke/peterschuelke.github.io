@@ -7,6 +7,21 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: redwoodblog
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -23,12 +38,16 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Start development server and generate static data
+      - name: Setup database and generate static data
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/redwoodblog
         run: |
           # Start the development server in the background
           yarn rw dev &
           # Wait for the server to start
           sleep 10
+          # Run database migrations
+          yarn rw prisma migrate deploy
           # Generate static data
           node scripts/generateStaticData.js
           # Stop the development server
