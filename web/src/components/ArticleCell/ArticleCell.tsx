@@ -1,55 +1,75 @@
-import type { FindArticleQuery, FindArticleQueryVariables } from 'types/graphql'
-
-import type {
-  CellFailureProps,
-  CellSuccessProps,
-  TypedDocumentNode,
-} from '@redwoodjs/web'
-
-import Article from 'src/components/Article'
-
-// Fallback data in case the database is not available
-const fallbackData = {
-  id: 1,
-  title: "Welcome to the Blog",
-  body: "This is a sample article. The database is not available in this environment.",
-  createdAt: new Date().toISOString()
-}
+import { useState, useEffect } from 'react'
+import { useQuery } from '@redwoodjs/web'
+import { gql } from '@apollo/client'
+import type { ArticleQuery } from 'types/graphql'
+import Article from 'src/components/Article/Article'
+import { loadArticle } from 'src/utils/staticData'
 
 // Only use GraphQL in development
-const QUERY: TypedDocumentNode<FindArticleQuery, FindArticleQueryVariables> | null =
-  process.env.NODE_ENV === 'development'
-    ? gql`
-        query FindArticleQuery($id: Int!) {
-          article: post(id: $id) {
-            id
-            title
-            body
-            createdAt
-          }
-        }
-      `
-    : null
+const QUERY = process.env.NODE_ENV === 'development' ? gql`
+  query ArticleQuery($id: Int!) {
+    article: post(id: $id) {
+      id
+      title
+      body
+      createdAt
+    }
+  }
+` : null
 
-const Loading = () => <div>Loading...</div>
+export const Loading = () => <div>Loading...</div>
 
-const Empty = () => <div>Empty</div>
+export const Empty = () => <div>Article not found</div>
 
-const Failure = ({
-  error,
-}: CellFailureProps<FindArticleQueryVariables>) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
+export const Failure = ({ error }) => (
+  <div className="rw-cell-error">{error?.message}</div>
 )
 
-const Success = ({
-  article,
-}: CellSuccessProps<FindArticleQuery, FindArticleQueryVariables>) => {
-  // In production, use the fallback data
-  // In development, use the GraphQL data
-  const data = process.env.NODE_ENV === 'development' ? article : fallbackData
-
-  return <Article article={data} />
+export const Success = ({ article }) => {
+  return <Article article={article} />
 }
 
-// Export the cell components individually
-export { Loading, Empty, Failure, Success, QUERY }
+// GraphQL version for development
+const ArticleCell = ({ id }) => {
+  const { loading, error, data } = useQuery(QUERY, {
+    variables: { id },
+  })
+
+  if (loading) return <Loading />
+  if (error) return <Failure error={error} />
+  if (!data?.article) return <Empty />
+
+  return <Success article={data.article} />
+}
+
+// Static data version for production
+const StaticArticleCell = ({ id }) => {
+  const [article, setArticle] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const data = await loadArticle(id)
+        if (data) {
+          setArticle(data)
+        }
+      } catch (err) {
+        setError(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchArticle()
+  }, [id])
+
+  if (loading) return <Loading />
+  if (error) return <Failure error={error} />
+  if (!article) return <Empty />
+
+  return <Success article={article} />
+}
+
+export default process.env.NODE_ENV === 'development' ? ArticleCell : StaticArticleCell

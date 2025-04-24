@@ -1,63 +1,77 @@
-import type { ArticlesQuery, ArticlesQueryVariables } from 'types/graphql'
-
-import type {
-  CellFailureProps,
-  CellSuccessProps,
-  TypedDocumentNode,
-} from '@redwoodjs/web'
-
-import Article from 'src/components/Article'
-
-// Fallback data in case the database is not available
-const fallbackData = [
-  {
-    id: 1,
-    title: "Welcome to the Blog",
-    body: "This is a sample article. The database is not available in this environment.",
-    createdAt: new Date().toISOString()
-  }
-]
+import { useState, useEffect } from 'react'
+import Article from 'src/components/Article/Article'
+import { loadArticles } from 'src/utils/staticData'
+import { useQuery } from '@redwoodjs/web'
 
 // Only use GraphQL in development
-const QUERY: TypedDocumentNode<ArticlesQuery, ArticlesQueryVariables> | null =
-  process.env.NODE_ENV === 'development'
-    ? gql`
-        query ArticlesQuery {
-          articles: posts {
-            id
-            title
-            body
-            createdAt
-          }
-        }
-      `
-    : null
+const QUERY = process.env.NODE_ENV === 'development' ? gql`
+  query ArticlesQuery {
+    articles: posts {
+      id
+      title
+      body
+      createdAt
+    }
+  }
+` : null
 
-const Loading = () => <div>Loading...</div>
+export const Loading = () => <div>Loading...</div>
 
-const Empty = () => <div>Empty</div>
+export const Empty = () => <div>No articles yet!</div>
 
-const Failure = ({
-  error,
-}: CellFailureProps<ArticlesQueryVariables>) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
+export const Failure = ({ error }) => (
+  <div className="rw-cell-error">{error?.message}</div>
 )
 
-const Success = ({
-  articles,
-}: CellSuccessProps<ArticlesQuery, ArticlesQueryVariables>) => {
-  // In production, use the fallback data
-  // In development, use the GraphQL data
-  const data = process.env.NODE_ENV === 'development' ? articles : fallbackData
-
+export const Success = ({ articles }) => {
   return (
-    <>
-      {data.map((article) => (
+    <div className="articles">
+      {articles.map((article) => (
         <Article key={article.id} article={article} />
       ))}
-    </>
+    </div>
   )
 }
 
-// Export the cell components individually
-export { Loading, Empty, Failure, Success, QUERY }
+// GraphQL version for development
+const ArticlesCell = () => {
+  const { loading, error, data } = useQuery(QUERY)
+
+  if (loading) return <Loading />
+  if (error) return <Failure error={error} />
+  if (!data?.articles?.length) return <Empty />
+
+  return <Success articles={data.articles} />
+}
+
+// Static data version for production
+const StaticArticlesCell = () => {
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const data = await loadArticles()
+        if (data) {
+          setArticles(data)
+        }
+      } catch (err) {
+        setError(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchArticles()
+  }, [])
+
+  if (loading) return <Loading />
+  if (error) return <Failure error={error} />
+  if (!articles.length) return <Empty />
+
+  return <Success articles={articles} />
+}
+
+export default process.env.NODE_ENV === 'development' ? ArticlesCell : StaticArticlesCell

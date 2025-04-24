@@ -6,9 +6,17 @@
       "web"
     ]
   },
+  "scripts": {
+    "build": "yarn rw build web",
+    "dev": "yarn rw dev",
+    "start": "yarn rw serve web",
+    "deploy": "./build.sh",
+    "serve": "serve -s dist"
+  },
   "devDependencies": {
     "@redwoodjs/core": "8.6.1",
-    "@redwoodjs/project-config": "8.6.1"
+    "@redwoodjs/project-config": "8.6.1",
+    "serve": "^14.2.4"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
