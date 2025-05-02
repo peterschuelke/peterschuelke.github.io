@@ -11,12 +11,31 @@
     "dev": "yarn rw dev",
     "start": "yarn rw serve web",
     "deploy": "./build.sh",
-    "serve": "serve -s dist"
+    "serve": "serve -s dist",
+    "storybook": "yarn rw storybook",
+    "serve-storybook": "yarn rw storybook --build && serve -s dist/storybook"
   },
   "devDependencies": {
+    "@redwoodjs/cli-storybook-vite": "8.6.1",
     "@redwoodjs/core": "8.6.1",
     "@redwoodjs/project-config": "8.6.1",
-    "serve": "^14.2.4"
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-links": "^8.6.12",
+    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/addon-viewport": "^8.6.12",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/builder-vite": "^8.6.12",
+    "@storybook/cli": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/react-vite": "^8.6.12",
+    "@storybook/testing-library": "^0.2.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "serve": "^14.2.4",
+    "storybook": "^8.6.12",
+    "vite": "^6.3.2",
+    "vite-plugin-node-polyfills": "^0.23.0"
   },
   "eslintConfig": {
     "extends": "@redwoodjs/eslint-config",
@@ -31,5 +50,9 @@
   "packageManager": "yarn@4.6.0",
   "resolutions": {
     "@storybook/react-dom-shim@npm:7.6.20": "https://verdaccio.tobbe.dev/@storybook/react-dom-shim/-/react-dom-shim-8.0.8.tgz"
+  },
+  "dependencies": {
+    "@redwoodjs/router": "8.6.1",
+    "react-router-dom": "^7.5.1"
   }
 }

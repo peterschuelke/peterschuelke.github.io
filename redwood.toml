@@ -17,6 +17,9 @@
   staticAssets = { path = ["public", "static"] }
 [api]
   port = 8911
+  functions = [
+    { name = "upload", path = "api/src/functions/upload.ts" }
+  ]
 [browser]
   open = true
 [notifications]

@@ -11,14 +11,27 @@ if (!fs.existsSync(publicDir)) {
 }
 
 // Fallback data in case the database is not available
-const fallbackData = [
-  {
-    id: 1,
-    title: "Welcome to the Blog",
-    body: "This is a sample article. The database is not available in this environment.",
-    createdAt: new Date().toISOString()
-  }
-]
+const fallbackData = {
+  posts: [
+    {
+      id: 1,
+      title: "Welcome to the Blog",
+      body: "This is a sample article. The database is not available in this environment.",
+      createdAt: new Date().toISOString()
+    }
+  ],
+  projects: [
+    {
+      id: 1,
+      title: "Sample Project",
+      description: "This is a sample project. The database is not available in this environment.",
+      image: "/images/sample-project.png",
+      link: "https://example.com",
+      role: "Developer",
+      createdAt: new Date().toISOString()
+    }
+  ]
+}
 
 async function generateStaticData() {
   try {
@@ -29,6 +42,15 @@ async function generateStaticData() {
           id
           title
           body
+          createdAt
+        }
+        projects {
+          id
+          title
+          description
+          image
+          link
+          role
           createdAt
         }
       }
@@ -47,19 +69,19 @@ async function generateStaticData() {
 
     if (!response.ok) {
       console.warn('Failed to fetch data from GraphQL API, using fallback data')
-      data = { data: { posts: fallbackData } }
+      data = { data: fallbackData }
     } else {
       const result = await response.json()
 
       if (result.errors) {
         console.warn('GraphQL errors encountered, using fallback data:', result.errors)
-        data = { data: { posts: fallbackData } }
+        data = { data: fallbackData }
       } else {
         data = result
       }
     }
 
-    // Write the articles to JSON files
+    // Write the posts to JSON files
     fs.writeFileSync(
       path.join(publicDir, 'articles.json'),
       JSON.stringify(data.data.posts, null, 2)
@@ -72,18 +94,41 @@ async function generateStaticData() {
       )
     })
 
+    // Write the projects to JSON files
+    fs.writeFileSync(
+      path.join(publicDir, 'projects.json'),
+      JSON.stringify(data.data.projects, null, 2)
+    )
+
+    data.data.projects.forEach(project => {
+      fs.writeFileSync(
+        path.join(publicDir, `project-${project.id}.json`),
+        JSON.stringify(project, null, 2)
+      )
+    })
+
     console.log('Static data generated successfully!')
   } catch (error) {
     console.error('Error generating static data:', error)
     // Even if there's an error, write the fallback data
     fs.writeFileSync(
       path.join(publicDir, 'articles.json'),
-      JSON.stringify(fallbackData, null, 2)
+      JSON.stringify(fallbackData.posts, null, 2)
     )
-    fallbackData.forEach(post => {
+    fallbackData.posts.forEach(post => {
       fs.writeFileSync(
         path.join(publicDir, `article-${post.id}.json`),
         JSON.stringify(post, null, 2)
+      )
+    })
+    fs.writeFileSync(
+      path.join(publicDir, 'projects.json'),
+      JSON.stringify(fallbackData.projects, null, 2)
+    )
+    fallbackData.projects.forEach(project => {
+      fs.writeFileSync(
+        path.join(publicDir, `project-${project.id}.json`),
+        JSON.stringify(project, null, 2)
       )
     })
     console.log('Fallback data written successfully')

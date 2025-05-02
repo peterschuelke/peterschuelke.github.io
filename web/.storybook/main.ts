@@ -1,28 +1,52 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 import { mergeConfig } from 'vite'
-import { getPaths, importStatementPath } from '@redwoodjs/project-config'
-
-const redwoodProjectPaths = getPaths()
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 const config: StorybookConfig = {
+  stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-onboarding',
+    '@storybook/addon-interactions',
+  ],
   framework: {
     name: '@storybook/react-vite',
-    options: {}
+    options: {
+      builder: {
+        viteConfigPath: './vite.config.ts',
+      },
+    },
   },
-  stories: [
-    `${importStatementPath(
-      redwoodProjectPaths.web.src
-    )}/**/*.stories.@(js|jsx|ts|tsx|mdx)`,
-  ],
-  addons: ['@storybook/addon-essentials'],
+  docs: {
+    autodocs: 'tag',
+  },
   core: {
+    builder: '@storybook/builder-vite',
     disableTelemetry: true,
   },
+  staticDirs: [],
   viteFinal: async (config) => {
     return mergeConfig(config, {
+      plugins: [nodePolyfills()],
       resolve: {
-        dedupe: ['@storybook/blocks'],
+        alias: {
+          '/entry.client.tsx': './.storybook/entry.client.tsx',
+        },
       },
+      build: {
+        sourcemap: true,
+        rollupOptions: {
+          output: {
+            manualChunks: (id) => {
+              if (id.includes('node_modules')) {
+                return 'vendor'
+              }
+            },
+          },
+        },
+      },
+      base: './',
     })
   },
 }

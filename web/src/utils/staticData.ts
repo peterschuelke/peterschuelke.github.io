@@ -18,3 +18,11 @@ export const loadArticles = async () => {
 export const loadArticle = async (id: number) => {
   return loadStaticData(`article-${id}.json`)
 }
+
+export const loadProject = async (id) => {
+  return loadStaticData(`project-${id}.json`)
+}
+
+export const loadProjects = async () => {
+  return loadStaticData('projects.json')
+}
