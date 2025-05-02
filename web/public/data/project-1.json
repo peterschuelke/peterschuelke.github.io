@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "title": "Children’s Hospital of Philadelphia (CHOP)",
+  "description": "Led a major turnaround on a complex web rebuild project for CHOP, joining at a critical juncture to stabilize frontend development, refactor architectural patterns, and reestablish delivery momentum.  I revamped the component architecture using Outline Design System (based on Lit2), streamlined code complexity, and introduced scalable patterns that reduced bugs and enabled future expansion (e.g., header/footer overrides by site section). I also provided hands-on mentorship, resolved team conflicts, and coached developers on collaboration and technical standards—transforming a stalled team into a high-functioning unit.  Stakeholders credited my leadership as “instrumental” in getting the project back on track, and praised my ability to cut through ambiguity with clarity, calm, and actionable decisions.",
+  "image": "",
+  "link": "https://www.chop.edu/",
+  "role": "Frontend Architecture & Team Leadership",
+  "createdAt": "2025-05-01T17:31:20.407Z"
+}
