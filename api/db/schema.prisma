@@ -29,3 +29,13 @@ model Post {
   body      String
   createdAt DateTime @default(now())
 }
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image       String
+  link        String
+  role        String
+  createdAt   DateTime @default(now())
+}
