@@ -27,7 +27,7 @@ export const Success = ({ articles }) => {
   return (
     <div className="articles">
       {articles.map((article) => (
-        <Article key={article.id} article={article} />
+        <Article post={article} key={article.id} summary={true} />
       ))}
     </div>
   )

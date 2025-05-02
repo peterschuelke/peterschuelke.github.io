@@ -6,30 +6,29 @@ import { standard } from './ArticlesCell.mock'
 const meta: Meta = {
   title: 'Cells/ArticlesCell',
   tags: ['autodocs'],
+  decorators: [
+    (Story) => (
+      <div style={{ margin: '2em' }}>
+        <Story />
+      </div>
+    ),
+  ],
 }
 
 export default meta
 
 export const loading: StoryObj<typeof Loading> = {
-  render: () => {
-    return Loading ? <Loading /> : <></>
-  },
+  render: () => <Loading />,
 }
 
 export const empty: StoryObj<typeof Empty> = {
-  render: () => {
-    return Empty ? <Empty /> : <></>
-  },
+  render: () => <Empty />,
 }
 
 export const failure: StoryObj<typeof Failure> = {
-  render: (args) => {
-    return Failure ? <Failure error={new Error('Oh no')} {...args} /> : <></>
-  },
+  render: (args) => <Failure error={new Error('Oh no')} {...args} />,
 }
 
 export const success: StoryObj<typeof Success> = {
-  render: (args) => {
-    return Success ? <Success {...standard()} {...args} /> : <></>
-  },
+  render: (args) => <Success {...standard()} {...args} />,
 }

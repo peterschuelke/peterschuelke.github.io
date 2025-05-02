@@ -1,7 +1,10 @@
 // Define your own mock data here:
 export const standard = (/* vars, { ctx, req } */) => ({
-  article: {
-    __typename: 'Article' as const,
+  post: {
+    __typename: 'Post' as const,
     id: 42,
+    title: 'First Post',
+    body: 'This is the first post',
+    createdAt: '2024-01-01T00:00:00.000Z',
   },
 })

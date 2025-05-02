@@ -8,7 +8,7 @@ import { loadArticle } from 'src/utils/staticData'
 // Only use GraphQL in development
 const QUERY = process.env.NODE_ENV === 'development' ? gql`
   query ArticleQuery($id: Int!) {
-    article: post(id: $id) {
+    post(id: $id) {
       id
       title
       body
@@ -25,8 +25,17 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error?.message}</div>
 )
 
-export const Success = ({ article }) => {
-  return <Article article={article} />
+interface SuccessProps {
+  post: {
+    id: number
+    title: string
+    body: string
+    createdAt: string
+  }
+}
+
+export const Success = ({ post }: SuccessProps) => {
+  return <Article post={post} />
 }
 
 // GraphQL version for development
@@ -37,9 +46,9 @@ const ArticleCell = ({ id }) => {
 
   if (loading) return <Loading />
   if (error) return <Failure error={error} />
-  if (!data?.article) return <Empty />
+  if (!data?.post) return <Empty />
 
-  return <Success article={data.article} />
+  return <Success post={data.post} />
 }
 
 // Static data version for production
@@ -69,7 +78,7 @@ const StaticArticleCell = ({ id }) => {
   if (error) return <Failure error={error} />
   if (!article) return <Empty />
 
-  return <Success article={article} />
+  return <Success post={article} />
 }
 
 export default process.env.NODE_ENV === 'development' ? ArticleCell : StaticArticleCell
