@@ -19,6 +19,9 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
             <li>
               <Link to={routes.about()}>About</Link>
             </li>
+            <li>
+              <a href="/storybook/index.html" target="_blank" rel="noopener noreferrer">Storybook</a>
+            </li>
           </ul>
         </nav>
       </header>
