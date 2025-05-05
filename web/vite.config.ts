@@ -1,17 +1,13 @@
-import dns from 'dns'
 import { defineConfig } from 'vite'
 import redwood from '@redwoodjs/vite'
 
-// So that Vite will load on localhost instead of `127.0.0.1`.
-// See: https://vitejs.dev/config/server-options.html#server-host.
+// Set default result order for DNS to ensure Vite loads on localhost instead of 127.0.0.1
+import dns from 'dns'
 dns.setDefaultResultOrder('verbatim')
 
 export default defineConfig({
   plugins: [redwood()],
   css: {
-    modules: {
-      localsConvention: 'camelCase',
-      generateScopedName: '[name]__[local]___[hash:base64:5]'
-    }
-  }
+    modules: false,
+  },
 } as any)

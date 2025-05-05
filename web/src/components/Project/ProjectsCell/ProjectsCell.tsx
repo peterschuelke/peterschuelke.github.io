@@ -4,6 +4,8 @@ import { CellSuccessProps, CellFailureProps, useQuery } from '@redwoodjs/web'
 import { gql } from '@apollo/client'
 import { loadProjects } from 'src/utils/staticData'
 import styles from './ProjectsCell.module.pcss'
+import { Link, routes } from '@redwoodjs/router'
+import Project from '../Project/Project'
 
 // Only use GraphQL in development
 const QUERY = process.env.NODE_ENV === 'development' ? gql`
@@ -15,51 +17,37 @@ const QUERY = process.env.NODE_ENV === 'development' ? gql`
       image
       link
       role
-      createdAt
     }
   }
 ` : null
 
 export const Loading = () => <div>Loading...</div>
 
-export const Empty = () => <div>No projects found</div>
-
-export const Failure = ({ error }: CellFailureProps) => {
-  console.error('ProjectsCell error:', error)
-  return <div className="rw-cell-error">Error: {error?.message}</div>
+export const Empty = () => {
+  return (
+    <div className="projects-cell__empty">
+      {'No projects yet. '}
+      <Link to={routes.newProject()} className="projects-cell__link">
+        {'Create one?'}
+      </Link>
+    </div>
+  )
 }
 
+export const Failure = ({ error }: CellFailureProps) => (
+  <div className="projects-cell__error">
+    Error loading projects: {error.message}
+  </div>
+)
+
 export const Success = ({ projects }: CellSuccessProps<FindProjects>) => {
-  console.log('ProjectsCell success:', projects)
-  if (!projects || projects.length === 0) {
-    return <Empty />
-  }
   return (
-    <div className={styles.projectsGrid}>
-      {projects.map((project) => (
-        <div key={project.id} className={styles.projectCard}>
-          <img
-            src={project.image.startsWith('http') ? project.image : project.image}
-            alt={project.title}
-            className={styles.projectImage}
-          />
-          <div className={styles.projectContent}>
-            <h3 className={styles.projectTitle}>{project.title}</h3>
-            <p className={styles.projectDescription}>{project.description}</p>
-            <p className={styles.projectRole}>Role: {project.role}</p>
-            {project.link && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.projectLink}
-              >
-                View Project →
-              </a>
-            )}
-          </div>
-        </div>
-      ))}
+    <div className="projects-cell">
+      <div className="projects-cell__grid">
+        {projects.map((project) => (
+          <Project key={project.id} project={project} />
+        ))}
+      </div>
     </div>
   )
 }
