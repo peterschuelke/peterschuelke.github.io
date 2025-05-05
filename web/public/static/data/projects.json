@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "CHOP Web Rebuild",
+    "description": "A complete rebuild of the Children's Hospital of Philadelphia website using modern web technologies.",
+    "image": "/static/images/chop.jpg",
+    "link": "https://www.chop.edu",
+    "role": "Lead Developer",
+    "createdAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "id": 2,
+    "title": "Portfolio Website",
+    "description": "A personal portfolio website built with RedwoodJS and modern web technologies.",
+    "image": "/static/images/portfolio.jpg",
+    "link": "https://peterschuelke.github.io",
+    "role": "Full Stack Developer",
+    "createdAt": "2024-02-01T00:00:00Z"
+  }
+]

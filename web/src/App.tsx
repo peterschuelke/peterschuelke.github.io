@@ -5,7 +5,7 @@ import { RedwoodApolloProvider } from '@redwoodjs/web/apollo'
 
 import FatalErrorPage from 'src/pages/FatalErrorPage'
 
-import './index.css'
+import './styles/index.pcss'
 import './scaffold.css'
 
 

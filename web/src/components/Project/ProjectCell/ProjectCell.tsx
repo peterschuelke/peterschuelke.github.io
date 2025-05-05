@@ -1,102 +1,43 @@
-import { useState, useEffect } from 'react'
-import type { FindProjectById } from 'types/graphql'
-import { CellSuccessProps, CellFailureProps, useQuery } from '@redwoodjs/web'
-import { loadProject } from 'src/utils/staticData'
+import { Link, routes } from '@redwoodjs/router'
+import styles from './ProjectCell.module.pcss'
 
-// Only use GraphQL in development
-const QUERY = process.env.NODE_ENV === 'development' ? gql`
-  query FindProjectById($id: Int!) {
-    project(id: $id) {
-      id
-      title
-      description
-      image
-      link
-      role
-      createdAt
-    }
-  }
-` : null
+import type { Project as ProjectType } from 'types/graphql'
 
-export const Loading = () => <div>Loading...</div>
+interface Props {
+  project: ProjectType
+}
 
-export const Empty = () => <div>Project not found</div>
-
-export const Failure = ({ error }: CellFailureProps) => (
-  <div className="text-red-600">Error: {error.message}</div>
-)
-
-export const Success = ({ project }: CellSuccessProps<FindProjectById>) => {
+const ProjectCell = ({ project }: Props) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <img
-        src={project.image}
-        alt={project.title}
-        className="w-full h-64 object-cover"
-      />
-      <div className="p-6">
-        <h1 className="text-3xl font-bold mb-4">{project.title}</h1>
-        <p className="text-gray-600 mb-4">{project.description}</p>
-        <p className="text-sm text-gray-500 mb-4">Role: {project.role}</p>
-        {project.link && (
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 hover:text-blue-800 inline-block"
-          >
-            View Project →
-          </a>
-        )}
+    <article className={styles.cell}>
+      <div className={styles.cellContent}>
+        <div>
+          <img
+            src={project.image}
+            alt={project.title}
+            className={styles.cellImage}
+          />
+        </div>
+        <div className={styles.cellDetails}>
+          <h2 className={styles.cellTitle}>
+            <Link to={routes.project({ id: project.id })}>{project.title}</Link>
+          </h2>
+          <p className={styles.cellRole}>Role: {project.role}</p>
+          <p className={styles.cellDescription}>{project.description}</p>
+          {project.link && (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.cellLink}
+            >
+              View Project →
+            </a>
+          )}
+        </div>
       </div>
-    </div>
+    </article>
   )
-}
-
-// Static data version for production
-const StaticProjectCell = ({ id }) => {
-  const [project, setProject] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const data = await loadProject(id)
-        if (data) {
-          setProject(data)
-        }
-      } catch (err) {
-        setError(err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchProject()
-  }, [id])
-
-  if (loading) return <Loading />
-  if (error) return <Failure error={error} />
-  if (!project) return <Empty />
-
-  return <Success project={project} />
-}
-
-const ProjectCell = ({ id }: { id: number }) => {
-  if (process.env.NODE_ENV === 'development') {
-    const { loading, error, data } = useQuery(QUERY, {
-      variables: { id },
-    })
-
-    if (loading) return <Loading />
-    if (error) return <Failure error={error} />
-    if (!data?.project) return <Empty />
-
-    return <Success project={data.project} />
-  }
-
-  return <StaticProjectCell id={id} />
 }
 
 export default ProjectCell
