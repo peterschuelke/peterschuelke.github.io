@@ -30,12 +30,21 @@ model Post {
   createdAt DateTime @default(now())
 }
 
+model Skill {
+  id    Int       @id @default(autoincrement())
+  title String
+  image String?
+  projects Project[]
+}
+
 model Project {
   id          Int      @id @default(autoincrement())
   title       String
   description String
+  summary     String?
   image       String
   link        String
   role        String
+  skills      Skill[]
   createdAt   DateTime @default(now())
 }
