@@ -1,7 +1,7 @@
-import ProjectsCell from 'src/components/Project/ProjectsCell'
+import ProjectsList from 'src/components/Project/ProjectsList'
 
 const ProjectsPage = () => {
-  return <ProjectsCell />
+  return <ProjectsList />
 }
 
 export default ProjectsPage

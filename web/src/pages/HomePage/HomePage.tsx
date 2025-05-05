@@ -1,6 +1,6 @@
 // import { Link, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-import ProjectsCell from 'src/components/Project/ProjectsCell'
+import ProjectsList from 'src/components/Project/ProjectsList'
 import './HomePage.pcss'
 
 const HomePage = () => {
@@ -9,7 +9,7 @@ const HomePage = () => {
       <Metadata title="Home" description="Home page" />
       <h1>Peter Schuelke's Portfolio</h1>
       <h2>Projects</h2>
-      <ProjectsCell />
+      <ProjectsList />
     </div>
   )
 }
