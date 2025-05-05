@@ -6,9 +6,14 @@ interface Props {
     id: number
     title: string
     description: string
+    summary: string
     image: string
     link: string
     role: string
+    skills: {
+      id: number
+      title: string
+    }[]
   }
 }
 
@@ -24,8 +29,16 @@ const Project = ({ project }: Props) => {
         <h3 className="project__title">
           <Link to={routes.project({ id: project.id })}>{project.title}</Link>
         </h3>
+        <p className="project__summary">{project.summary}</p>
         <p className="project__description">{project.description}</p>
         <p className="project__role">Role: {project.role}</p>
+        <div className="project__skills">
+          {project.skills && project.skills.map((skill) => (
+            <span key={skill.id} className="project__skill-tag">
+              {skill.title}
+            </span>
+          ))}
+        </div>
         <div className="project__links">
           <a
             href={project.link}

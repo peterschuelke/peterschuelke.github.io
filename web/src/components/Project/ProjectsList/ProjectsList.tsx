@@ -3,9 +3,9 @@ import type { FindProjects } from 'types/graphql'
 import { CellSuccessProps, CellFailureProps, useQuery } from '@redwoodjs/web'
 import { gql } from '@apollo/client'
 import { loadProjects } from 'src/utils/staticData'
-import styles from './ProjectsCell.module.pcss'
+import styles from './ProjectsList.module.pcss'
 import { Link, routes } from '@redwoodjs/router'
-import Project from '../Project/Project'
+import ProjectCard from '../ProjectCard/ProjectCard'
 
 // Only use GraphQL in development
 const QUERY = process.env.NODE_ENV === 'development' ? gql`
@@ -14,9 +14,14 @@ const QUERY = process.env.NODE_ENV === 'development' ? gql`
       id
       title
       description
+      summary
       image
       link
       role
+      skills {
+        id
+        title
+      }
     }
   }
 ` : null
@@ -25,9 +30,9 @@ export const Loading = () => <div>Loading...</div>
 
 export const Empty = () => {
   return (
-    <div className="projects-cell__empty">
+    <div className="projects-list__empty">
       {'No projects yet. '}
-      <Link to={routes.newProject()} className="projects-cell__link">
+      <Link to={routes.newProject()} className="projects-list__link">
         {'Create one?'}
       </Link>
     </div>
@@ -35,17 +40,17 @@ export const Empty = () => {
 }
 
 export const Failure = ({ error }: CellFailureProps) => (
-  <div className="projects-cell__error">
+  <div className="projects-list__error">
     Error loading projects: {error.message}
   </div>
 )
 
 export const Success = ({ projects }: CellSuccessProps<FindProjects>) => {
   return (
-    <div className="projects-cell">
-      <div className="projects-cell__grid">
+    <div className="projects-list">
+      <div className="projects-list__grid">
         {projects.map((project) => (
-          <Project key={project.id} project={project} />
+          <ProjectCard key={project.id} project={project} />
         ))}
       </div>
     </div>
@@ -53,7 +58,7 @@ export const Success = ({ projects }: CellSuccessProps<FindProjects>) => {
 }
 
 // Static data version for production
-const StaticProjectsCell = () => {
+const StaticProjectsList = () => {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -85,7 +90,7 @@ const StaticProjectsCell = () => {
   return <Success projects={projects} />
 }
 
-const ProjectsCell = () => {
+const ProjectsList = () => {
   if (process.env.NODE_ENV === 'development') {
     console.log('Running in development mode')
     const { loading, error, data } = useQuery(QUERY)
@@ -98,7 +103,7 @@ const ProjectsCell = () => {
   }
 
   console.log('Running in production mode')
-  return <StaticProjectsCell />
+  return <StaticProjectsList />
 }
 
-export default ProjectsCell
+export default ProjectsList

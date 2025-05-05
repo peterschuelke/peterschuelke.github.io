@@ -1,32 +1,32 @@
-.projects-cell {
-  padding: 2rem;
+.projects-list {
+  padding: 0;
 }
 
-.projects-cell__grid {
+.projects-list__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: var(--spacing-4);
 }
 
-.projects-cell__empty {
+.projects-list__empty {
   text-align: center;
-  padding: 2rem;
-  color: #666;
+  padding: var(--spacing-4);
+  color: var(--color-text-secondary);
 }
 
-.projects-cell__link {
-  color: #007bff;
+.projects-list__link {
+  color: var(--color-primary);
   text-decoration: none;
+  font-weight: 500;
 }
 
-.projects-cell__link:hover {
+.projects-list__link:hover {
   text-decoration: underline;
 }
 
-.projects-cell__error {
-  color: #dc3545;
-  padding: 1rem;
+.projects-list__error {
+  color: var(--color-error);
+  padding: var(--spacing-4);
   text-align: center;
 }
 
