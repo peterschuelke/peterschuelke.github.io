@@ -25,9 +25,11 @@ const fallbackData = {
       id: 1,
       title: "Sample Project",
       description: "This is a sample project. The database is not available in this environment.",
+      summary: "A brief summary of the sample project",
       image: "/images/sample-project.png",
       link: "https://example.com",
       role: "Developer",
+      skills: [],
       createdAt: new Date().toISOString()
     }
   ]
@@ -48,9 +50,14 @@ async function generateStaticData() {
           id
           title
           description
+          summary
           image
           link
           role
+          skills {
+            id
+            title
+          }
           createdAt
         }
       }
