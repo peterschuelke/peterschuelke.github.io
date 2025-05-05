@@ -2,8 +2,10 @@
   "id": 2,
   "title": "Capacity Building Center for Courts Data Dashboard",
   "description": "Led the architecture and development of a custom data dashboard for the Capacity Building Center for Courts, delivering a high-impact, client-facing product on time and within budget. Designed a cohesive tech stack—integrating Drupal, GraphQL, Highcharts, and Lit2 with Apollo Elements—to meet complex data visualization needs and deliver an elegant, performant user experience.  Collaborated closely with stakeholders to shape a solution that balanced technical feasibility with long-term maintainability, while fostering a communicative, high-functioning development team. Recognized for bringing clarity, confidence, and expert leadership across both internal collaboration and client engagements. Led the architecture and development of a custom data dashboard for the Capacity Building Center for Courts, delivering a high-impact, client-facing product on time and within budget. Designed a cohesive tech stack—integrating Drupal, GraphQL, Highcharts, and Lit2 with Apollo Elements—to meet complex data visualization needs and deliver an elegant, performant user experience. Collaborated closely with stakeholders to shape a solution that balanced technical feasibility with long-term maintainability, while fostering a communicative, high-functioning development team. Recognized for bringing clarity, confidence, and expert leadership across both internal collaboration and client engagements. Skills: Drupal · Lit2 · GraphQL · Apollo GraphQL Skills: Drupal · Lit2 · GraphQL · Apollo GraphQL CIP Dashboard | CIP DashboardCIP Dashboard | CIP Dashboard",
-  "image": "",
+  "summary": "I led the architecture and delivery of a data-rich dashboard for the Capacity Building Center for Courts, launching a polished, client-facing tool on time and within budget. By integrating Drupal, GraphQL, Highcharts, and Lit2 with Apollo Elements, I created a scalable, elegant solution that earned stakeholder trust through clear communication, technical leadership, and thoughtful collaboration.",
+  "image": "/uploads/38feaa37-640e-44a9-aeec-cbde200ac1e1.png",
   "link": "https://cipdatadashboard.org/",
   "role": "Lead Architect",
+  "skills": null,
   "createdAt": "2025-05-01T17:32:23.102Z"
 }
