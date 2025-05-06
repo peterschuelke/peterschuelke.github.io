@@ -23,23 +23,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Setup database and generate static data
-        env:
-          DATABASE_URL: file:./api/db/dev.db
-        run: |
-          # Create the database directory if it doesn't exist
-          mkdir -p api/db
-          # Start the development server in the background
-          yarn rw dev &
-          # Wait for the server to start
-          sleep 10
-          # Run database migrations
-          yarn rw prisma migrate deploy
-          # Generate static data
-          node scripts/generateStaticData.js
-          # Stop the development server
-          pkill -f "yarn rw dev"
-
       - name: Make build script executable
         run: chmod +x build.sh
 
