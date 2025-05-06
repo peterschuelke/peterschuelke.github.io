@@ -85,16 +85,24 @@ async function generateStaticData() {
         data = { data: fallbackData }
       } else {
         data = result
+        // Ensure we have at least the fallback data if the arrays are empty
+        if (!data.data.posts || data.data.posts.length === 0) {
+          data.data.posts = fallbackData.posts
+        }
+        if (!data.data.projects || data.data.projects.length === 0) {
+          data.data.projects = fallbackData.projects
+        }
       }
     }
 
     // Write the posts to JSON files
+    const posts = data.data.posts || fallbackData.posts
     fs.writeFileSync(
       path.join(publicDir, 'articles.json'),
-      JSON.stringify(data.data.posts, null, 2)
+      JSON.stringify(posts, null, 2)
     )
 
-    data.data.posts.forEach(post => {
+    posts.forEach(post => {
       fs.writeFileSync(
         path.join(publicDir, `article-${post.id}.json`),
         JSON.stringify(post, null, 2)
@@ -102,12 +110,13 @@ async function generateStaticData() {
     })
 
     // Write the projects to JSON files
+    const projects = data.data.projects || fallbackData.projects
     fs.writeFileSync(
       path.join(publicDir, 'projects.json'),
-      JSON.stringify(data.data.projects, null, 2)
+      JSON.stringify(projects, null, 2)
     )
 
-    data.data.projects.forEach(project => {
+    projects.forEach(project => {
       fs.writeFileSync(
         path.join(publicDir, `project-${project.id}.json`),
         JSON.stringify(project, null, 2)
