@@ -1,5 +1,4 @@
-import { Link, routes } from '@redwoodjs/router'
-import './ProjectCard.pcss'
+import { useInView } from 'react-intersection-observer'
 
 interface Props {
   project: {
@@ -18,28 +17,23 @@ interface Props {
 }
 
 const ProjectCard = ({ project }: Props) => {
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  })
+
   return (
-    <article className="project-card">
+    <div
+      ref={ref}
+      className={`project-card ${inView ? 'project-card--visible' : ''}`}
+    >
+      <div className="project-card__image">
+        <img src={project.image} alt={project.title} />
+      </div>
       <div className="project-card__content">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="project-card__image"
-        />
-        <h3 className="project-card__title">
-          <Link to={routes.project({ id: project.id })}>{project.title}</Link>
-        </h3>
+        <h3 className="project-card__title">{project.title}</h3>
+        <p className="project-card__role">{project.role}</p>
         <p className="project-card__summary">{project.summary}</p>
-        <p className="project-card__role">Role: {project.role}</p>
-        {project.skills && (
-          <div className="project-card__skills">
-            {project.skills.map((skill) => (
-              <span key={skill.id} className="project-card__skill-tag">
-                {skill.title}
-              </span>
-            ))}
-          </div>
-        )}
         <div className="project-card__links">
           <a
             href={project.link}
@@ -51,7 +45,7 @@ const ProjectCard = ({ project }: Props) => {
           </a>
         </div>
       </div>
-    </article>
+    </div>
   )
 }
 

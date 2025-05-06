@@ -3,7 +3,6 @@ import type { FindProjects } from 'types/graphql'
 import { CellSuccessProps, CellFailureProps, useQuery } from '@redwoodjs/web'
 import { gql } from '@apollo/client'
 import { loadProjects } from 'src/utils/staticData'
-import styles from './ProjectsList.module.pcss'
 import { Link, routes } from '@redwoodjs/router'
 import ProjectCard from '../ProjectCard/ProjectCard'
 
