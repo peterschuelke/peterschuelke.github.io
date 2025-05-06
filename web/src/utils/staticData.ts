@@ -1,6 +1,6 @@
 export const loadStaticData = async (path: string) => {
   try {
-    const response = await fetch(`/static/data/${path}`)
+    const response = await fetch(`/static/${path}`)
     if (!response.ok) {
       throw new Error(`Failed to load static data: ${response.statusText}`)
     }
