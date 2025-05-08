@@ -6,6 +6,31 @@
   "image": "/uploads/38feaa37-640e-44a9-aeec-cbde200ac1e1.png",
   "link": "https://cipdatadashboard.org/",
   "role": "Lead Architect",
-  "skills": null,
+  "skills": [
+    {
+      "id": 3,
+      "title": "Lit2"
+    },
+    {
+      "id": 4,
+      "title": "Webpack"
+    },
+    {
+      "id": 6,
+      "title": "CSS3"
+    },
+    {
+      "id": 7,
+      "title": "GraphQL"
+    },
+    {
+      "id": 8,
+      "title": "PHP"
+    },
+    {
+      "id": 9,
+      "title": "Drupal"
+    }
+  ],
   "createdAt": "2025-05-01T17:32:23.102Z"
 }
