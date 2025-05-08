@@ -9,10 +9,24 @@ import {
   TextField,
   Submit,
   TextAreaField,
+  SelectField,
 } from '@redwoodjs/forms'
 import { handleImageUpload } from 'src/utils/imageUtils'
+import { useQuery } from '@redwoodjs/web'
+import { gql } from '@apollo/client'
 
-type FormProject = NonNullable<EditProjectById['project']>
+const SKILLS_QUERY = gql`
+  query FindSkills {
+    skills {
+      id
+      title
+    }
+  }
+`
+
+type FormProject = NonNullable<EditProjectById['project']> & {
+  skillIds?: string[]
+}
 
 interface ProjectFormProps {
   project?: EditProjectById['project']
@@ -25,12 +39,17 @@ const ProjectForm = (props: ProjectFormProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(props.project?.image)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [newImagePath, setNewImagePath] = useState<string | null>(null)
+  const { data: skillsData } = useQuery(SKILLS_QUERY)
 
   const onSubmit = (data: FormProject) => {
     console.log('Form submission data:', data)
     // Use the new image path if it exists, otherwise use the current project image
     const imagePath = newImagePath || props.project?.image
-    props.onSave({ ...data, image: imagePath }, props?.project?.id)
+
+    // Convert skillIds to integers if they exist
+    const skillIds = data.skillIds ? data.skillIds.map(id => parseInt(id, 10)) : undefined
+
+    props.onSave({ ...data, image: imagePath, skillIds }, props?.project?.id)
   }
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,6 +189,30 @@ const ProjectForm = (props: ProjectFormProps) => {
         />
 
         <FieldError name="role" className="rw-field-error" />
+
+        <Label
+          name="skillIds"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Skills
+        </Label>
+
+        <SelectField
+          name="skillIds"
+          multiple
+          defaultValue={[]}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        >
+          {skillsData?.skills?.map((skill) => (
+            <option key={skill.id} value={skill.id}>
+              {skill.title}
+            </option>
+          ))}
+        </SelectField>
+
+        <FieldError name="skillIds" className="rw-field-error" />
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">

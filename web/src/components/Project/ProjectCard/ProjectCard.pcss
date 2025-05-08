@@ -1,11 +1,14 @@
 .project-card {
-  background-color: var(--color-background);
-  border-radius: var(--radius-lg);
+  position: relative;
+  background-color: var(--color-bg-neutral-bolder);
   box-shadow: var(--shadow-md);
   overflow: hidden;
   opacity: 0;
   transform: translateY(20px);
   transition: transform var(--transition-slow), box-shadow var(--transition-slow), opacity var(--transition-slow);
+}
+.project-card:hover .project-card__link-text {
+  color: var(--color-primary-bold);
 }
 
 .project-card--visible {
@@ -24,7 +27,6 @@
   flex-direction: column;
   justify-content: space-between;
   gap: var(--spacing-4);
-  height: 100%;
 }
 
 .project-card__image img {
@@ -42,10 +44,13 @@
 .project-card__title a {
   color: inherit;
   text-decoration: none;
+  position: relative;
+  z-index: 1;
+  color: var(--color-primary-subtler);
 }
 
 .project-card__title a:hover {
-  color: var(--color-primary);
+  color: var(--color-primary-bold);
 }
 
 .project-card__summary {
@@ -79,16 +84,21 @@
   padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--radius-sm);
   font-size: var(--font-size-sm);
-}
-
-.project-card__links {
-  display: flex;
-  gap: var(--spacing-2);
+  margin-right: var(--spacing-2);
 }
 
 .project-card__link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.project-card__link-text {
   display: inline-block;
-  color: var(--color-primary-default);
+  color: var(--color-primary-subtler);
   text-decoration: none;
   transition: color var(--transition-fast);
   margin-top: var(--spacing-2);

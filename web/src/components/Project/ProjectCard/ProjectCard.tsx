@@ -27,23 +27,31 @@ const ProjectCard = ({ project }: Props) => {
       ref={ref}
       className={`project-card ${inView ? 'project-card--visible' : ''}`}
     >
+      <a
+        href={`/projects/${project.id}`}
+        rel="noopener noreferrer"
+        className="project-card__link"
+      >
+      </a>
       <div className="project-card__image">
         <img src={project.image} alt={project.title} />
       </div>
       <div className="project-card__content">
-        <h3 className="project-card__title">{project.title}</h3>
-        <p className="project-card__role">{project.role}</p>
-        <p className="project-card__summary">{project.summary}</p>
-        <div className="project-card__links">
+        <h3 className="project-card__title">
           <a
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="project-card__link"
           >
-            View Project
+            {project.title}
           </a>
-        </div>
+        </h3>
+        <p className="project-card__role">{project.role}</p>
+        <p className="project-card__summary">{project.summary}</p>
+        <p className="project-card__link-text">
+          View Project
+        </p>
+
       </div>
     </div>
   )
