@@ -1,16 +1,8 @@
 .project {
   display: flex;
   transition: all 0.25s;
-  border: 1px solid var(--color-bg-neutral-subtle);
   border-radius: 0px;
-  background-color: var(--color-bg-neutral-subtlest);
   height: 100%;
-
-  &:hover,
-  &:focus {
-    border-color: transparent;
-    background-color: var(--color-bg-brand-primary-subtlest);
-  }
 }
 
 .project__content {
@@ -49,11 +41,15 @@
 
 .project__link {
   display: inline-block;
-  color: var(--color-primary);
+  color: var(--color-primary-subtler);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .project__link:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-bold);
+}
+
+.project__skill-tag {
+  margin-right: var(--spacing-4);
 }
