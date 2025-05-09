@@ -1,0 +1,145 @@
+{
+  "_NewPost-Df5eBH8G.js": {
+    "file": "assets/NewPost-Df5eBH8G.js",
+    "name": "NewPost",
+    "imports": [
+      "index.html",
+      "_PostForm-O08hdMrs.js"
+    ]
+  },
+  "_PostForm-O08hdMrs.js": {
+    "file": "assets/PostForm-O08hdMrs.js",
+    "name": "PostForm",
+    "imports": [
+      "index.html",
+      "_index-DEeuBli7.js"
+    ]
+  },
+  "_createCell-D22_OQo4.js": {
+    "file": "assets/createCell-D22_OQo4.js",
+    "name": "createCell",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "_formatters-BSdMjrZ3.js": {
+    "file": "assets/formatters-BSdMjrZ3.js",
+    "name": "formatters",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "_index-DEeuBli7.js": {
+    "file": "assets/index-DEeuBli7.js",
+    "name": "index",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "index.html": {
+    "file": "assets/index-BPofp6OD.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "pages/ArticlePage/ArticlePage.tsx",
+      "pages/Post/EditPostPage/EditPostPage.tsx",
+      "pages/Post/NewPostPage/NewPostPage.tsx",
+      "pages/Post/PostPage/PostPage.tsx",
+      "pages/Post/PostsPage/PostsPage.tsx",
+      "pages/Project/EditProjectPage/EditProjectPage.tsx",
+      "pages/Project/NewProjectPage/NewProjectPage.tsx",
+      "pages/Project/ProjectsPage/ProjectsPage.tsx"
+    ],
+    "css": [
+      "assets/index-B6mfrAH-.css"
+    ]
+  },
+  "pages/ArticlePage/ArticlePage.tsx": {
+    "file": "assets/ArticlePage-BD5TLM3U.js",
+    "name": "ArticlePage",
+    "src": "pages/ArticlePage/ArticlePage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "pages/Post/EditPostPage/EditPostPage.tsx": {
+    "file": "assets/EditPostPage-CK_OqckX.js",
+    "name": "EditPostPage",
+    "src": "pages/Post/EditPostPage/EditPostPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_createCell-D22_OQo4.js",
+      "_PostForm-O08hdMrs.js",
+      "_index-DEeuBli7.js"
+    ]
+  },
+  "pages/Post/NewPostPage/NewPostPage.tsx": {
+    "file": "assets/NewPostPage-C2R8C3WG.js",
+    "name": "NewPostPage",
+    "src": "pages/Post/NewPostPage/NewPostPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_NewPost-Df5eBH8G.js",
+      "_PostForm-O08hdMrs.js",
+      "_index-DEeuBli7.js"
+    ]
+  },
+  "pages/Post/PostPage/PostPage.tsx": {
+    "file": "assets/PostPage-BNVyFzAd.js",
+    "name": "PostPage",
+    "src": "pages/Post/PostPage/PostPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_createCell-D22_OQo4.js",
+      "_formatters-BSdMjrZ3.js"
+    ]
+  },
+  "pages/Post/PostsPage/PostsPage.tsx": {
+    "file": "assets/PostsPage-DvzynyGP.js",
+    "name": "PostsPage",
+    "src": "pages/Post/PostsPage/PostsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_createCell-D22_OQo4.js",
+      "_formatters-BSdMjrZ3.js"
+    ]
+  },
+  "pages/Project/EditProjectPage/EditProjectPage.tsx": {
+    "file": "assets/EditProjectPage-81lGWbU6.js",
+    "name": "EditProjectPage",
+    "src": "pages/Project/EditProjectPage/EditProjectPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_createCell-D22_OQo4.js",
+      "_index-DEeuBli7.js"
+    ]
+  },
+  "pages/Project/NewProjectPage/NewProjectPage.tsx": {
+    "file": "assets/NewProjectPage-DhJjAYTv.js",
+    "name": "NewProjectPage",
+    "src": "pages/Project/NewProjectPage/NewProjectPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_NewPost-Df5eBH8G.js",
+      "_PostForm-O08hdMrs.js",
+      "_index-DEeuBli7.js"
+    ]
+  },
+  "pages/Project/ProjectsPage/ProjectsPage.tsx": {
+    "file": "assets/ProjectsPage-BwnIz9A2.js",
+    "name": "ProjectsPage",
+    "src": "pages/Project/ProjectsPage/ProjectsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  }
+}
