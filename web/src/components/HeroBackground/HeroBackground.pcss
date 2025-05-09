@@ -1,0 +1,58 @@
+.hero__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.hero__background--truss {
+  width: 800px;
+  object-fit: contain;
+  position: absolute;
+  top: -115px;
+  left: 0;
+  z-index: 0;
+  filter: brightness(0.3) contrast(1.2);
+}
+
+.hero__background--truss.truss--2 {
+  right: 0;
+  left: auto
+}
+
+.hero__background--light-base {
+  width: 200px;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  z-index: 2;
+  filter: brightness(0.4) contrast(1.2);
+}
+
+.hero__background--light-source {
+  width: 200px;
+  position: absolute;
+  top: 150px;
+  left: 0;
+  z-index: 1;
+  filter: brightness(0.4) contrast(1.2);
+}
+
+.hero__background--light-base.base--2,
+.hero__background--light-source.source--2 {
+  left: 400px;
+}
+
+.hero__background--light-base.base--3,
+.hero__background--light-source.source--3 {
+  right: 400px;
+  left: auto;
+}
+
+.hero__background--light-base.base--4,
+.hero__background--light-source.source--4 {
+  right: 0px;
+  left: auto;
+}
