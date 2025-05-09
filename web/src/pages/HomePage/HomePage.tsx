@@ -10,8 +10,10 @@ const HomePage = () => {
     <div className="home-page">
       <Metadata title="Home" description="Home page" />
       <Hero/>
-      <h2>My Work</h2>
-      <ProjectsList />
+      <div className="container--normal">
+        <h2>My Work</h2>
+        <ProjectsList />
+      </div>
     </div>
   )
 }

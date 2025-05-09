@@ -8,7 +8,7 @@ type BlogLayoutProps = {
 const BlogLayout = ({ children }: BlogLayoutProps) => {
   return (
     <div className="blog-layout">
-      <header className="blog-layout__header">
+      {/* <header className="blog-layout__header container--normal">
         <h1 className="blog-layout__title">
           <Link to={routes.home()}>Peter Schuelke&apos;s Profile</Link>
         </h1>
@@ -25,7 +25,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
             </li>
           </ul>
         </nav>
-      </header>
+      </header> */}
       <main className="blog-layout__main">{children}</main>
     </div>
   )
