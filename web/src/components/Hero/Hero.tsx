@@ -27,8 +27,8 @@ const Hero = () => {
     <section className="hero">
       <HeroBackground />
       <div ref={contentRef} className="hero__content container--normal">
-        <h1 className="hero__title" data-text="Peter Schuelke">Peter Schuelke</h1>
-        <p className="hero__subtitle" data-text="Full Stack Developer">Full Stack Developer</p>
+        {/* <h1 className="hero__title" data-text="Peter Schuelke">Peter Schuelke</h1>
+        <p className="hero__subtitle" data-text="Full Stack Developer">Full Stack Developer</p> */}
       </div>
     </section>
   )

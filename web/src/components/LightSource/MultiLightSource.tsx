@@ -3,6 +3,7 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { Sphere, OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { MeshTransmissionMaterial } from '@react-three/drei'
 
 interface MultiLightSourceProps {
   className?: string
@@ -16,22 +17,23 @@ interface LightModelProps {
 }
 
 function LightModel({ mousePosition, positions, containerRef }: LightModelProps) {
-  const gltf = useLoader(GLTFLoader, '/assets/MultiStageLights-left.glb')
+  const gltf = useLoader(GLTFLoader, '/assets/MultiStageLights.glb')
   const modelRefs = useRef<THREE.Group[]>([])
   const [spotLight, setSpotLight] = useState<THREE.SpotLight | null>(null)
+  const [nameMesh, setNameMesh] = useState<THREE.Mesh | null>(null)
 
   const getLensColor = (lensNumber: number) => {
     const colors = {
       1: '#00ffff', // cyan
-      2: '#ffffff', // white
-      3: '#ffffff', // white
+      2: '#ff00ff', // magenta
+      3: '#bfff00', // lime
       4: '#00ffff'  // cyan
     }
     return colors[lensNumber as keyof typeof colors] || '#ffffff'
   }
 
   const createSpotLight = (color: string, lensNumber: number) => {
-    const newSpotLight = new THREE.SpotLight(color, 20, 10, Math.PI / 12, 0.5, 1)
+    const newSpotLight = new THREE.SpotLight(color, 50, 10, Math.PI / 6, 0.5, 1)
     newSpotLight.position.set(0, 0, 0)
     newSpotLight.rotation.x = Math.PI / 4
     const target = new THREE.Object3D()
@@ -72,7 +74,9 @@ function LightModel({ mousePosition, positions, containerRef }: LightModelProps)
               setSpotLight(newSpotLight)
             }
           }
-        } else if (name.includes('truss')) {
+        } else if (name.includes('name') || name.includes('title')) {
+          setNameMesh(child)
+        } else if (name.includes('truss') || name.includes('chain')) {
           child.material = new THREE.MeshStandardMaterial({
             color: '#e0e0e0',
             metalness: 0.8,
@@ -116,6 +120,13 @@ function LightModel({ mousePosition, positions, containerRef }: LightModelProps)
           const dy = lightScreenY - mousePosition.y
           let baseAngle = Math.atan2(dy, dx) + Math.PI / 2
 
+          // Add 10-degree offset for lights 1 and 4
+          if (lightNumber === 1) {
+            baseAngle += Math.PI / 18 // 10 degrees to the left
+          } else if (lightNumber === 4) {
+            baseAngle -= Math.PI / 18 // 10 degrees to the right
+          }
+
           // Apply rotations
           child.rotation.z = baseAngle
           child.rotation.x = 0
@@ -138,6 +149,13 @@ function LightModel({ mousePosition, positions, containerRef }: LightModelProps)
           const dy = lightScreenY - mousePosition.y
           let baseAngle = Math.atan2(dy, dx) + Math.PI / 2
 
+          // Add 10-degree offset for lights 1 and 4
+          if (lightNumber === 1) {
+            baseAngle += Math.PI / 18 // 10 degrees to the left
+          } else if (lightNumber === 4) {
+            baseAngle -= Math.PI / 18 // 10 degrees to the right
+          }
+
           // Apply the same rotation as the lens/head
           child.rotation.z = -baseAngle
         }
@@ -158,6 +176,26 @@ function LightModel({ mousePosition, positions, containerRef }: LightModelProps)
           scale={0.02}
         />
       </group>
+      {nameMesh && (
+        <mesh
+          geometry={nameMesh.geometry}
+          position={nameMesh.position}
+          rotation={nameMesh.rotation}
+        >
+          <MeshTransmissionMaterial
+            color="#ffffff"
+            attenuationColor="#ffffff"
+            background={new THREE.Color("#000000")}
+            transmissionSampler={true}
+            backside={true}
+            attenuationDistance={0.5}
+            roughness={0.1}
+            transmission={0.95}
+            ior={1.5}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
     </>
   )
 }
