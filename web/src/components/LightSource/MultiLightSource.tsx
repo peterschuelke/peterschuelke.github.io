@@ -293,6 +293,42 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
           }
         })
       })
+    } else if (animationPhase === 'waiting' || animationPhase === 'following') {
+      // Maintain light intensities after animation
+      gltf.scene.traverse((child) => {
+        if (child instanceof THREE.SpotLight) {
+          child.intensity = 50
+          const parent = child.parent
+          if (parent && parent instanceof THREE.Mesh) {
+            const material = parent.material as THREE.MeshStandardMaterial
+            if (material) {
+              material.emissiveIntensity = 2
+            }
+          }
+        } else if (child instanceof THREE.PointLight) {
+          child.intensity = 0.6
+        } else if (child instanceof THREE.HemisphereLight) {
+          child.intensity = 0.1
+        } else if (child instanceof THREE.AmbientLight) {
+          child.intensity = 0.3
+        }
+      })
+    }
+
+    // Always maintain light intensities regardless of phase
+    if (animationPhase !== 'initial') {
+      gltf.scene.traverse((child) => {
+        if (child instanceof THREE.SpotLight) {
+          child.intensity = 50
+          const parent = child.parent
+          if (parent && parent instanceof THREE.Mesh) {
+            const material = parent.material as THREE.MeshStandardMaterial
+            if (material) {
+              material.emissiveIntensity = 2
+            }
+          }
+        }
+      })
     }
   })
 
