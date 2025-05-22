@@ -1,5 +1,3 @@
-
-
 .home-page__title {
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
@@ -16,4 +14,15 @@
 
 .home-page__projects {
   margin-top: var(--spacing-8);
+}
+
+.content {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.content--visible {
+  opacity: 1;
+  transform: translateY(0);
 }

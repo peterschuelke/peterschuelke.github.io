@@ -1,7 +1,11 @@
 import { useEffect, useRef } from 'react'
 import HeroBackground from 'src/components/HeroBackground/HeroBackground'
 
-const Hero = () => {
+interface HeroProps {
+  onAnimationComplete?: () => void
+}
+
+const Hero = ({ onAnimationComplete }: HeroProps) => {
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -25,7 +29,7 @@ const Hero = () => {
 
   return (
     <section className="hero">
-      <HeroBackground />
+      <HeroBackground onAnimationComplete={onAnimationComplete} />
       <div ref={contentRef} className="hero__content container--normal">
         {/* <h1 className="hero__title" data-text="Peter Schuelke">Peter Schuelke</h1>
         <p className="hero__subtitle" data-text="Full Stack Developer">Full Stack Developer</p> */}
