@@ -69,18 +69,14 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
     console.log('Cycling color for light:', lightNumber)
     setLightColors(prev => {
       const currentColor = prev[lightNumber]
-      console.log('Current color:', currentColor)
       const currentIndex = colorCycle.indexOf(currentColor)
       const nextIndex = (currentIndex + 1) % colorCycle.length
       const nextColor = colorCycle[nextIndex]
-      console.log('Next color:', nextColor)
 
       // Update all materials and lights for this light number
       gltf.scene.traverse((child) => {
         const name = child.name.toLowerCase()
-        console.log('Checking object:', name)
         if (name.includes(`lens_${lightNumber}`)) {
-          console.log('Found lens for light:', lightNumber)
           if (child instanceof THREE.Mesh) {
             const material = child.material as THREE.MeshStandardMaterial
             if (material) {
@@ -511,13 +507,10 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
             // Stop event propagation to prevent multiple triggers
             e.stopPropagation()
 
-            console.log('Click event on object:', e.object.name)
             // Find the light number from any part of the clicked object
             const name = e.object.name.toLowerCase()
-            console.log('Object name:', name)
             // Match either head_ or lens_ followed by a number
             const lightMatch = name.match(/(?:head|lens)_(\d+)/)
-            console.log('Light match:', lightMatch)
             if (lightMatch) {
               const lightNumber = parseInt(lightMatch[1])
               console.log('Found light number:', lightNumber)
