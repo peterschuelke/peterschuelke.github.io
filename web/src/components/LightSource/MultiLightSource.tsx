@@ -9,6 +9,7 @@ interface MultiLightSourceProps {
   className?: string
   lightPositions: Array<[number, number, number]>
   onAnimationComplete?: () => void
+  onLensClick?: (lensNumber: number) => void
 }
 
 interface LightModelProps {
@@ -16,9 +17,10 @@ interface LightModelProps {
   positions: Array<[number, number, number]>
   containerRef: React.RefObject<HTMLDivElement>
   onAnimationComplete?: () => void
+  onLensClick?: (lensNumber: number) => void
 }
 
-function LightModel({ mousePosition, positions, containerRef, onAnimationComplete }: LightModelProps) {
+function LightModel({ mousePosition, positions, containerRef, onAnimationComplete, onLensClick }: LightModelProps) {
   const gltf = useLoader(GLTFLoader, '/assets/MultiStageLights.glb')
   const modelRefs = useRef<THREE.Group[]>([])
   const [spotLight, setSpotLight] = useState<THREE.SpotLight | null>(null)
@@ -27,17 +29,86 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
   const animationStartTime = useRef(Date.now())
   const [hasCursorEntered, setHasCursorEntered] = useState(false)
   const [lightIntensity, setLightIntensity] = useState(0)
+  const lastMouseMoveTime = useRef(Date.now())
+  const fadeStartTime = useRef(Date.now())
+  const [isFading, setIsFading] = useState(false)
+  const [lightColors, setLightColors] = useState<{ [key: number]: string }>({
+    1: '#00ffff', // cyan
+    2: '#ff00ff', // magenta
+    3: '#bfff00', // lime
+    4: '#00ffff', // cyan
+    5: '#ff00ff', // magenta
+    6: '#bfff00', // lime
+  })
+
+  const colorCycle = ['#00ffff', '#ff00ff', '#bfff00'] // cyan, magenta, lime
+  const colorTransitionRef = useRef<{ [key: number]: { startColor: string, endColor: string, progress: number } }>({})
+  const [rotatingLights, setRotatingLights] = useState<{ [key: number]: boolean }>({
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true,
+    6: true
+  })
+
+  // Add mouse movement tracking
+  useEffect(() => {
+    const handleMouseMove = () => {
+      lastMouseMoveTime.current = Date.now()
+      setIsFading(true)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [])
+
+  const cycleLightColor = (lightNumber: number) => {
+    console.log('Cycling color for light:', lightNumber)
+    setLightColors(prev => {
+      const currentColor = prev[lightNumber]
+      console.log('Current color:', currentColor)
+      const currentIndex = colorCycle.indexOf(currentColor)
+      const nextIndex = (currentIndex + 1) % colorCycle.length
+      const nextColor = colorCycle[nextIndex]
+      console.log('Next color:', nextColor)
+
+      // Update all materials and lights for this light number
+      gltf.scene.traverse((child) => {
+        const name = child.name.toLowerCase()
+        console.log('Checking object:', name)
+        if (name.includes(`lens_${lightNumber}`)) {
+          console.log('Found lens for light:', lightNumber)
+          if (child instanceof THREE.Mesh) {
+            const material = child.material as THREE.MeshStandardMaterial
+            if (material) {
+              material.color.set(nextColor)
+              material.emissive.set(nextColor)
+            }
+          }
+        } else if (child instanceof THREE.SpotLight && child.parent?.name.toLowerCase().includes(`lens_${lightNumber}`)) {
+          child.color.set(nextColor)
+        }
+      })
+
+      // Stop rotation for this light and clear its transition
+      setRotatingLights(prev => ({
+        ...prev,
+        [lightNumber]: false
+      }))
+      delete colorTransitionRef.current[lightNumber]
+
+      return {
+        ...prev,
+        [lightNumber]: nextColor
+      }
+    })
+  }
 
   const getLensColor = (lensNumber: number) => {
-    const colors = {
-      1: '#00ffff', // cyan
-      2: '#ff00ff', // magenta
-      3: '#bfff00', // lime
-      4: '#00ffff',  // cyan
-      5: '#ff00ff', // magenta
-      6: '#bfff00', // lime
-    }
-    return colors[lensNumber as keyof typeof colors] || '#ffffff'
+    return lightColors[lensNumber] || '#ffffff'
   }
 
   const createSpotLight = (color: string, lensNumber: number) => {
@@ -146,6 +217,90 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
 
     const currentTime = Date.now()
     const elapsedTime = (currentTime - animationStartTime.current) / 1000 // Convert to seconds
+    const timeSinceLastMouseMove = currentTime - lastMouseMoveTime.current
+
+    // Handle color fade animation
+    if (isFading) {
+      const fadeDuration = 2 // 2 seconds per color transition
+      const fadeStep = 1 / (fadeDuration * 60) // Assuming 60fps
+
+      // Only process lights that are set to rotate
+      Object.entries(rotatingLights)
+        .filter(([_, shouldRotate]) => shouldRotate)
+        .forEach(([lightNumber]) => {
+          const lensNumber = parseInt(lightNumber)
+          const child = gltf.scene.children.find(child =>
+            child.name.toLowerCase().includes(`lens_${lensNumber}`)
+          )
+
+          if (child instanceof THREE.Mesh) {
+            const material = child.material as THREE.MeshStandardMaterial
+            if (material) {
+              // Initialize or update transition if needed
+              if (!colorTransitionRef.current[lensNumber]) {
+                const currentColor = lightColors[lensNumber]
+                const currentIndex = colorCycle.indexOf(currentColor)
+                const nextIndex = (currentIndex + 1) % colorCycle.length
+                const nextColor = colorCycle[nextIndex]
+
+                colorTransitionRef.current[lensNumber] = {
+                  startColor: currentColor,
+                  endColor: nextColor,
+                  progress: 0
+                }
+              }
+
+              const transition = colorTransitionRef.current[lensNumber]
+              const currentColor = new THREE.Color(transition.startColor)
+              const nextColor = new THREE.Color(transition.endColor)
+
+              // Convert to HSL for smoother transitions
+              const currentHSL = { h: 0, s: 0, l: 0 }
+              const nextHSL = { h: 0, s: 0, l: 0 }
+              currentColor.getHSL(currentHSL)
+              nextColor.getHSL(nextHSL)
+
+              // Interpolate HSL values
+              const h = currentHSL.h + (nextHSL.h - currentHSL.h) * transition.progress
+              const s = currentHSL.s + (nextHSL.s - currentHSL.s) * transition.progress
+              const l = currentHSL.l + (nextHSL.l - currentHSL.l) * transition.progress
+
+              // Create new color from interpolated HSL
+              const interpolatedColor = new THREE.Color().setHSL(h, s, l)
+
+              // Apply interpolated color
+              material.color.copy(interpolatedColor)
+              material.emissive.copy(interpolatedColor)
+
+              // Update spotlight color
+              child.children.forEach(spotlight => {
+                if (spotlight instanceof THREE.SpotLight) {
+                  spotlight.color.copy(interpolatedColor)
+                }
+              })
+
+              // Update progress
+              transition.progress += fadeStep
+
+              // Update state when transition is complete
+              if (transition.progress >= 1) {
+                setLightColors(prev => ({
+                  ...prev,
+                  [lensNumber]: transition.endColor
+                }))
+                // Start next transition
+                const currentIndex = colorCycle.indexOf(transition.endColor)
+                const nextIndex = (currentIndex + 1) % colorCycle.length
+                colorTransitionRef.current[lensNumber] = {
+                  startColor: transition.endColor,
+                  endColor: colorCycle[nextIndex],
+                  progress: 0
+                }
+              }
+            }
+          }
+        })
+    }
 
     // Animation sequence
     if (animationPhase === 'initial') {
@@ -211,6 +366,9 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
         animationStartTime.current = Date.now() // Reset timer for waiting phase
         setAnimationPhase('waiting')
         onAnimationComplete?.()
+        // Start fade animation after rotation completes
+        setIsFading(true)
+        fadeStartTime.current = Date.now()
       }
     } else if (animationPhase === 'waiting') {
       // Wait for cursor to enter window
@@ -222,6 +380,12 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
       const rect = containerRef.current.getBoundingClientRect()
       const centerX = rect.left + rect.width / 2
       const centerY = rect.top + rect.height / 2
+
+      // Start fade animation if mouse hasn't moved for 1 second
+      if (timeSinceLastMouseMove > 1000 && !isFading) {
+        setIsFading(true)
+        fadeStartTime.current = currentTime
+      }
 
       modelRefs.current.forEach((group, index) => {
         const position = positions[index]
@@ -343,6 +507,23 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
           }}
           object={gltf.scene}
           scale={0.02}
+          onClick={(e) => {
+            // Stop event propagation to prevent multiple triggers
+            e.stopPropagation()
+
+            console.log('Click event on object:', e.object.name)
+            // Find the light number from any part of the clicked object
+            const name = e.object.name.toLowerCase()
+            console.log('Object name:', name)
+            // Match either head_ or lens_ followed by a number
+            const lightMatch = name.match(/(?:head|lens)_(\d+)/)
+            console.log('Light match:', lightMatch)
+            if (lightMatch) {
+              const lightNumber = parseInt(lightMatch[1])
+              console.log('Found light number:', lightNumber)
+              cycleLightColor(lightNumber)
+            }
+          }}
         />
       </group>
       {nameMesh && (
@@ -376,7 +557,7 @@ function LightModel({ mousePosition, positions, containerRef, onAnimationComplet
   )
 }
 
-const MultiLightSource = ({ className = '', lightPositions, onAnimationComplete }: MultiLightSourceProps) => {
+const MultiLightSource = ({ className = '', lightPositions, onAnimationComplete, onLensClick }: MultiLightSourceProps) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -421,6 +602,7 @@ const MultiLightSource = ({ className = '', lightPositions, onAnimationComplete 
           positions={lightPositions}
           containerRef={containerRef}
           onAnimationComplete={onAnimationComplete}
+          onLensClick={onLensClick}
         />
       </Canvas>
     </div>

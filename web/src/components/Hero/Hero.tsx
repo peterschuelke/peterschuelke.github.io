@@ -3,9 +3,10 @@ import HeroBackground from 'src/components/HeroBackground/HeroBackground'
 
 interface HeroProps {
   onAnimationComplete?: () => void
+  onLensClick?: (lensNumber: number) => void
 }
 
-const Hero = ({ onAnimationComplete }: HeroProps) => {
+const Hero = ({ onAnimationComplete, onLensClick }: HeroProps) => {
   const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const Hero = ({ onAnimationComplete }: HeroProps) => {
 
   return (
     <section className="hero">
-      <HeroBackground onAnimationComplete={onAnimationComplete} />
+      <HeroBackground onAnimationComplete={onAnimationComplete} onLensClick={onLensClick} />
       <div ref={contentRef} className="hero__content container--normal">
         {/* <h1 className="hero__title" data-text="Peter Schuelke">Peter Schuelke</h1>
         <p className="hero__subtitle" data-text="Full Stack Developer">Full Stack Developer</p> */}
