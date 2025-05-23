@@ -1,0 +1,17 @@
+.two-column-text {
+  display: grid;
+  gap: 2rem;
+}
+
+.two-column-text p {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .two-column-text {
+    grid-template-columns: 1fr 1fr;
+  }
+}
