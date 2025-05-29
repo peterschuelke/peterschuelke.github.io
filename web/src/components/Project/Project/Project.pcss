@@ -8,10 +8,14 @@
 
 .project__header {
   margin-bottom: 2rem;
+  align-items: start;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .project__title {
-  font-size: 2rem;
+  font-size: var(--font-size-heading-3xl);
   margin: 0;
   color: var(--color-text);
 }
@@ -26,12 +30,6 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-}
-
-@media (min-width: 768px) {
-  .project__content {
-    grid-template-columns: 1fr 2fr;
-  }
 }
 
 .project__image-container {
@@ -57,7 +55,7 @@
 }
 
 .project__description {
-  font-size: 1.1rem;
+  font-size: var(--font-size-body-3xl);
   line-height: 1.6;
   color: var(--color-text);
 }
@@ -69,24 +67,24 @@
 }
 
 .project__case-study {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 2rem;
   margin: 2rem 0;
 }
 
 .project__section {
   h3 {
-    font-size: 1.3rem;
+    font-size: var(--font-size-headline-lg);
     margin: 0 0 1rem;
-    color: var(--color-text);
+    text-transform: uppercase;
   }
 
   p {
-    font-size: 1rem;
+    font-size: var(--font-size-body-base);
     line-height: 1.6;
-    color: var(--color-text);
     margin: 0;
+    font-weight: var(--font-weight-thin);
   }
 }
 

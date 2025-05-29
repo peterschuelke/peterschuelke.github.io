@@ -4,14 +4,14 @@ import { gql } from '@apollo/client'
 import { Link, routes } from '@redwoodjs/router'
 import { loadProject } from 'src/utils/staticData'
 import { MetaTags } from '@redwoodjs/web'
-import './Project.pcss'
 
 // Only use GraphQL in development
 const QUERY = process.env.NODE_ENV === 'development' ? gql`
-  query ProjectQuery($id: Int!) {
-    project(id: $id) {
+  query ProjectQuery($slug: String!) {
+    projectBySlug(slug: $slug) {
       id
       title
+      slug
       description
       summary
       problem
@@ -41,12 +41,13 @@ interface ProjectProps {
   project: {
     id: number
     title: string
+    slug: string
     description: string
     summary?: string
-    problem: string
-    solution: string
-    execution: string
-    results: string
+    problem?: string
+    solution?: string
+    execution?: string
+    results?: string
     image: string
     link: string
     role: string
@@ -62,41 +63,50 @@ const Project = ({ project }: ProjectProps) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <article className="project">
+    <article className="project container--normal">
       <div className="project__header">
         <h2 className="project__title">{project.title}</h2>
-        <p className="project__role">{project.role}</p>
+        {/* <p className="project__role">{project.role}</p> */}
       </div>
 
       <div className="project__content">
-        <div className="project__image-container">
-          <img src={project.image} alt={project.title} className="project__image" />
-        </div>
+        {project.image && (
+          <div className="project__image-container">
+            <img src={project.image} alt={project.title} className="project__image" />
+          </div>
+        )}
 
         <div className="project__details">
           <p className="project__description">{project.description}</p>
-          {project.summary && <p className="project__summary">{project.summary}</p>}
 
           <div className="project__case-study">
-            <div className="project__section">
-              <h3>Problem</h3>
-              <p>{project.problem}</p>
-            </div>
+            {project.problem && (
+              <div className="project__section">
+                <h3>Problem</h3>
+                <p>{project.problem}</p>
+              </div>
+            )}
 
-            <div className="project__section">
-              <h3>Solution</h3>
-              <p>{project.solution}</p>
-            </div>
+            {project.solution && (
+              <div className="project__section">
+                <h3>Solution</h3>
+                <p>{project.solution}</p>
+              </div>
+            )}
 
-            <div className="project__section">
-              <h3>Execution</h3>
-              <p>{project.execution}</p>
-            </div>
+            {project.execution && (
+              <div className="project__section">
+                <h3>Execution</h3>
+                <p>{project.execution}</p>
+              </div>
+            )}
 
-            <div className="project__section">
-              <h3>Results</h3>
-              <p>{project.results}</p>
-            </div>
+            {project.results && (
+              <div className="project__section">
+                <h3>Results</h3>
+                <p>{project.results}</p>
+              </div>
+            )}
           </div>
 
           <div className="project__skills">
@@ -107,9 +117,11 @@ const Project = ({ project }: ProjectProps) => {
             ))}
           </div>
 
-          <a href={project.link} target="_blank" rel="noopener noreferrer" className="project__link">
-            View Project
-          </a>
+          {project.link && (
+            <a href={project.link} target="_blank" rel="noopener noreferrer" className="project__link">
+              Visit Project
+            </a>
+          )}
         </div>
       </div>
     </article>
@@ -117,20 +129,20 @@ const Project = ({ project }: ProjectProps) => {
 }
 
 // GraphQL version for development
-const ProjectCell = ({ id }) => {
+const ProjectCell = ({ slug }) => {
   const { loading, error, data } = useQuery(QUERY, {
-    variables: { id },
+    variables: { slug },
   })
 
   if (loading) return <Loading />
   if (error) return <Failure error={error} />
-  if (!data?.project) return <Empty />
+  if (!data?.projectBySlug) return <Empty />
 
-  return <Project project={data.project} />
+  return <Project project={data.projectBySlug} />
 }
 
 // Static data version for production
-const StaticProjectCell = ({ id }) => {
+const StaticProjectCell = ({ slug }) => {
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -138,7 +150,7 @@ const StaticProjectCell = ({ id }) => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const data = await loadProject(id)
+        const data = await loadProject(slug)
         if (data) {
           setProject(data)
         }
@@ -150,7 +162,7 @@ const StaticProjectCell = ({ id }) => {
     }
 
     fetchProject()
-  }, [id])
+  }, [slug])
 
   if (loading) return <Loading />
   if (error) return <Failure error={error} />

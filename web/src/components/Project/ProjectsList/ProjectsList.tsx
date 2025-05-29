@@ -12,6 +12,7 @@ const QUERY = process.env.NODE_ENV === 'development' ? gql`
     projects {
       id
       title
+      slug
       description
       summary
       image
@@ -46,7 +47,7 @@ export const Failure = ({ error }: CellFailureProps) => (
 
 export const Success = ({ projects }: CellSuccessProps<FindProjects>) => {
   return (
-    <div className="projects-list">
+    <div className="projects-list container--normal">
       <div className="projects-list__grid">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />

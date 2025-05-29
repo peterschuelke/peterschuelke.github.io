@@ -1,6 +1,8 @@
 .project-card {
   position: relative;
-  background-color: var(--color-bg-neutral-bolder);
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  color: var(--color-text-inverse);
   box-shadow: var(--shadow-md);
   overflow: hidden;
   opacity: 0;
@@ -35,14 +37,12 @@
 }
 
 .project-card__title {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-heading-lg);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text);
   margin-bottom: var(--spacing-2);
 }
 
 .project-card__title a {
-  color: inherit;
   text-decoration: none;
   position: relative;
   z-index: 1;
@@ -54,20 +54,20 @@
 }
 
 .project-card__summary {
-  color: var(--color-text);
   margin-bottom: 0;
-  font-weight: var(--font-weight-normal);
-  flex-grow: 1;;
+  flex-grow: 1;
+  font-size: var(--font-size-body-base);
+  line-height: 1.6;
+  margin: 0;
+  font-weight: var(--font-weight-thin);
 }
 
 .project-card__description {
-  color: var(--color-text);
   margin-bottom: 0;
 }
 
 .project-card__role {
   font-size: var(--font-size-sm);
-  color: var(--color-text-light);
   margin-bottom: 0;
 }
 
@@ -87,14 +87,14 @@
   margin-right: var(--spacing-2);
 }
 
-.project-card__link {
+/* .project-card__link {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
-}
+} */
 
 .project-card__link-text {
   display: inline-block;
@@ -104,6 +104,9 @@
   margin-top: var(--spacing-2);
 }
 
-.project-card__link:hover {
-  color: var(--color-primary-dark);
+.project-card__eyebrow {
+  width: 13%;
+  height: 4px;
+  pointer-events: none;
+  filter: hue-rotate(var(--hue-rotation));
 }

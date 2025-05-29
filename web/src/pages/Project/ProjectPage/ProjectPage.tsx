@@ -2,11 +2,15 @@
 import { MetaTags } from '@redwoodjs/web'
 import Project from 'src/components/Project/Project/Project'
 
-const ProjectPage = ({ id }) => {
+interface ProjectPageProps {
+  slug: string
+}
+
+const ProjectPage = ({ slug }: ProjectPageProps) => {
   return (
     <>
       <MetaTags title="Project" description="Project page" />
-      <Project id={id} />
+      <Project slug={slug} />
       {/*
           My default route is named `project`, link to me with:
           `<Link to={routes.project()}>Project</Link>`
