@@ -9,7 +9,7 @@
 
 html {
   font-family: var(--font-family-sans);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-body-base);
   line-height: 1.5;
   color: var(--color-text-inverse);
   background-color: var(--color-bg-neutral-boldest);
@@ -29,12 +29,12 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-4);
 }
 
-h1 { font-size: var(--font-size-3xl); }
-h2 { font-size: var(--font-size-2xl); }
-h3 { font-size: var(--font-size-xl); }
-h4 { font-size: var(--font-size-lg); }
-h5 { font-size: var(--font-size-base); }
-h6 { font-size: var(--font-size-sm); }
+h1 { font-size: var(--font-size-heading-3xl); }
+h2 { font-size: var(--font-size-heading-2xl); }
+h3 { font-size: var(--font-size-heading-xl); }
+h4 { font-size: var(--font-size-heading-lg); }
+h5 { font-size: var(--font-size-heading-base); }
+h6 { font-size: var(--font-size-heading-sm); }
 
 p {
   margin-top: 0;
@@ -55,7 +55,7 @@ a:hover {
 /* Buttons */
 button {
   font-family: var(--font-family-sans);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-body-base);
   padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--radius-md);
   border: none;
@@ -66,7 +66,7 @@ button {
 /* Forms */
 input, textarea, select {
   font-family: var(--font-family-sans);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-body-base);
   padding: var(--spacing-2) var(--spacing-3);
   border: 1px solid var(--color-secondary-light);
   border-radius: var(--radius-md);
@@ -114,4 +114,8 @@ input:focus, textarea:focus, select:focus {
   max-width: var(--breakpoint-xl);
   margin: 0 auto;
   padding: 0 var(--spacing-3);
+}
+
+body .rw-scaffold {
+  background-color: inherit;
 }
