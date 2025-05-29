@@ -1,55 +1,121 @@
 .project {
-  display: flex;
-  transition: all 0.25s;
-  border-radius: 0px;
-  height: 100%;
+  margin-bottom: 4rem;
+  padding: 2rem;
+  background: var(--color-background);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.project__content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-4);
-}
-
-.project__image {
-  width: 100%;
-  object-fit: cover;
-  border-radius: var(--radius-lg);
-}
-
-.project__details {
-  flex: 1;
+.project__header {
+  margin-bottom: 2rem;
 }
 
 .project__title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
+  font-size: 2rem;
+  margin: 0;
   color: var(--color-text);
-  margin-bottom: var(--spacing-2);
 }
 
 .project__role {
-  font-size: var(--font-size-sm);
+  font-size: 1.1rem;
   color: var(--color-text-light);
-  margin-bottom: var(--spacing-4);
+  margin: 0.5rem 0 0;
+}
+
+.project__content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .project__content {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+.project__image-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.project__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project__details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .project__description {
+  font-size: 1.1rem;
+  line-height: 1.6;
   color: var(--color-text);
-  margin-bottom: var(--spacing-4);
+}
+
+.project__summary {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text-light);
+}
+
+.project__case-study {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.project__section {
+  h3 {
+    font-size: 1.3rem;
+    margin: 0 0 1rem;
+    color: var(--color-text);
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin: 0;
+  }
+}
+
+.project__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.project__skill {
+  padding: 0.25rem 0.75rem;
+  background: var(--color-background-light);
+  border-radius: 16px;
+  font-size: 0.9rem;
+  color: var(--color-text);
 }
 
 .project__link {
   display: inline-block;
-  color: var(--color-primary-subtler);
+  padding: 0.75rem 1.5rem;
+  background: var(--color-primary);
+  color: white;
   text-decoration: none;
-  transition: color var(--transition-fast);
-}
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 
-.project__link:hover {
-  color: var(--color-primary-bold);
-}
-
-.project__skill-tag {
-  margin-right: var(--spacing-4);
+  &:hover {
+    background: var(--color-primary-dark);
+  }
 }

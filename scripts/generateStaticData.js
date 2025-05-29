@@ -26,6 +26,10 @@ const fallbackData = {
       title: "Sample Project",
       description: "This is a sample project. The database is not available in this environment.",
       summary: "A brief summary of the sample project",
+      problem: "Describe the problem the client has you fixing.",
+      solution: "Describe the approach you have to solving the problem.",
+      execution: "Describe what you did.",
+      results: "Describe the impact you made.",
       image: "/images/sample-project.png",
       link: "https://example.com",
       role: "Developer",
@@ -51,6 +55,10 @@ async function generateStaticData() {
           title
           description
           summary
+          problem
+          solution
+          execution
+          results
           image
           link
           role
