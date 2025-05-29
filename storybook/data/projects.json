@@ -1,0 +1,60 @@
+[
+  {
+    "id": 1,
+    "title": "Children’s Hospital of Philadelphia (CHOP)",
+    "description": "Led a major turnaround on a complex web rebuild project for CHOP, joining at a critical juncture to stabilize frontend development, refactor architectural patterns, and reestablish delivery momentum.  I revamped the component architecture using Outline Design System (based on Lit2), streamlined code complexity, and introduced scalable patterns that reduced bugs and enabled future expansion (e.g., header/footer overrides by site section). I also provided hands-on mentorship, resolved team conflicts, and coached developers on collaboration and technical standards—transforming a stalled team into a high-functioning unit.  Stakeholders credited my leadership as “instrumental” in getting the project back on track, and praised my ability to cut through ambiguity with clarity, calm, and actionable decisions.",
+    "summary": "I led a critical turnaround on a stalled web rebuild for CHOP by overhauling the component architecture, reducing bugs, and enabling scalable growth. By mentoring developers and resolving team friction, I helped transform delivery pace and team performance—earning stakeholder praise for restoring clarity and momentum.",
+    "image": "/uploads/d66e5816-2b1d-473a-be69-2e976139c329.png",
+    "link": "https://www.chop.edu/",
+    "role": "Frontend Architecture & Team Leadership",
+    "skills": [],
+    "createdAt": "2025-05-01T17:31:20.407Z"
+  },
+  {
+    "id": 2,
+    "title": "Capacity Building Center for Courts Data Dashboard",
+    "description": "Led the architecture and development of a custom data dashboard for the Capacity Building Center for Courts, delivering a high-impact, client-facing product on time and within budget. Designed a cohesive tech stack—integrating Drupal, GraphQL, Highcharts, and Lit2 with Apollo Elements—to meet complex data visualization needs and deliver an elegant, performant user experience.  Collaborated closely with stakeholders to shape a solution that balanced technical feasibility with long-term maintainability, while fostering a communicative, high-functioning development team. Recognized for bringing clarity, confidence, and expert leadership across both internal collaboration and client engagements. Led the architecture and development of a custom data dashboard for the Capacity Building Center for Courts, delivering a high-impact, client-facing product on time and within budget. Designed a cohesive tech stack—integrating Drupal, GraphQL, Highcharts, and Lit2 with Apollo Elements—to meet complex data visualization needs and deliver an elegant, performant user experience. Collaborated closely with stakeholders to shape a solution that balanced technical feasibility with long-term maintainability, while fostering a communicative, high-functioning development team. Recognized for bringing clarity, confidence, and expert leadership across both internal collaboration and client engagements. Skills: Drupal · Lit2 · GraphQL · Apollo GraphQL Skills: Drupal · Lit2 · GraphQL · Apollo GraphQL CIP Dashboard | CIP DashboardCIP Dashboard | CIP Dashboard",
+    "summary": "I led the architecture and delivery of a data-rich dashboard for the Capacity Building Center for Courts, launching a polished, client-facing tool on time and within budget. By integrating Drupal, GraphQL, Highcharts, and Lit2 with Apollo Elements, I created a scalable, elegant solution that earned stakeholder trust through clear communication, technical leadership, and thoughtful collaboration.",
+    "image": "/uploads/38feaa37-640e-44a9-aeec-cbde200ac1e1.png",
+    "link": "https://cipdatadashboard.org/",
+    "role": "Lead Architect",
+    "skills": [
+      {
+        "id": 3,
+        "title": "Lit2"
+      },
+      {
+        "id": 4,
+        "title": "Webpack"
+      },
+      {
+        "id": 6,
+        "title": "CSS3"
+      },
+      {
+        "id": 7,
+        "title": "GraphQL"
+      },
+      {
+        "id": 8,
+        "title": "PHP"
+      },
+      {
+        "id": 9,
+        "title": "Drupal"
+      }
+    ],
+    "createdAt": "2025-05-01T17:32:23.102Z"
+  },
+  {
+    "id": 3,
+    "title": "American Physical Society (APS)",
+    "description": "Served as technical lead on a high-visibility web platform rebuild for the American Physical Society, guiding the project from discovery through to successful launch. Delivered the product on time and within budget, despite challenges including a shifting tech stack, integration of unfamiliar client-preferred technologies, and evolving stakeholder expectations.  Crafted clean, maintainable, and well-documented code while mentoring the development team, troubleshooting blockers, and facilitating architectural decisions. Balanced client needs with technical feasibility, while maintaining calm and collaborative client relationships. Recognized for thoughtful problem-solving, clear communication of tradeoffs, and consultative leadership throughout. Served as co-technical lead on a high-visibility web platform rebuild for the American Physical Society, guiding the project from discovery through to successful launch. Delivered the product on time and within budget, despite challenges including a shifting tech stack, integration of unfamiliar client-preferred technologies, and evolving stakeholder expectations. Crafted clean, maintainable, and well-documented code while mentoring the development team, troubleshooting blockers, and facilitating architectural decisions. Balanced client needs with technical feasibility, while maintaining calm and collaborative client relationships. Recognized for thoughtful problem-solving, clear communication of tradeoffs, and consultative leadership throughout.",
+    "summary": "As technical lead for a major rebuild of the American Physical Society’s web platform, I guided the project from discovery to successful launch—on time and within budget—despite shifting technologies and evolving stakeholder needs. I provided steady architectural leadership, mentored the team, and was recognized for clear communication, consultative problem-solving, and delivering clean, maintainable code under pressure.",
+    "image": "/uploads/75be6259-a14c-4d0e-9cba-4ae07df185e8.png",
+    "link": "https://www.aps.org/",
+    "role": "Lead Architect",
+    "skills": [],
+    "createdAt": "2025-05-01T17:38:13.483Z"
+  }
+]
