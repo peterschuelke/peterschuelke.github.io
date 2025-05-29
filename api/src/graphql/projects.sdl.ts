@@ -9,6 +9,7 @@ export const schema = gql`
   type Project {
     id: Int!
     title: String!
+    slug: String!
     description: String!
     summary: String
     problem: String
@@ -25,12 +26,14 @@ export const schema = gql`
   type Query {
     projects: [Project!]! @requireAuth
     project(id: Int!): Project @requireAuth
+    projectBySlug(slug: String!): Project @requireAuth
     skills: [Skill!]! @requireAuth
     skill(id: Int!): Skill @requireAuth
   }
 
   input CreateProjectInput {
     title: String!
+    slug: String!
     description: String!
     summary: String
     problem: String
@@ -45,6 +48,7 @@ export const schema = gql`
 
   input UpdateProjectInput {
     title: String
+    slug: String
     description: String
     summary: String
     problem: String

@@ -1,8 +1,8 @@
-import type { QueryResolvers, MutationResolvers } from 'types/graphql'
+import type { QueryResolvers, MutationResolvers, ProjectRelationResolvers } from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
-export const projects: QueryResolvers['projects'] = () => {
+export const projects: QueryResolvers['projects'] = async () => {
   return db.project.findMany({
     include: {
       skills: true,
@@ -10,7 +10,7 @@ export const projects: QueryResolvers['projects'] = () => {
   })
 }
 
-export const project: QueryResolvers['project'] = ({ id }) => {
+export const project: QueryResolvers['project'] = async ({ id }) => {
   return db.project.findUnique({
     where: { id },
     include: {
@@ -19,9 +19,16 @@ export const project: QueryResolvers['project'] = ({ id }) => {
   })
 }
 
-export const createProject: MutationResolvers['createProject'] = ({
-  input,
-}) => {
+export const projectBySlug: QueryResolvers['projectBySlug'] = async ({ slug }) => {
+  return db.project.findFirst({
+    where: { slug },
+    include: {
+      skills: true,
+    },
+  })
+}
+
+export const createProject: MutationResolvers['createProject'] = async ({ input }) => {
   const { skillIds, ...rest } = input
   return db.project.create({
     data: {
@@ -36,10 +43,7 @@ export const createProject: MutationResolvers['createProject'] = ({
   })
 }
 
-export const updateProject: MutationResolvers['updateProject'] = ({
-  id,
-  input,
-}) => {
+export const updateProject: MutationResolvers['updateProject'] = async ({ id, input }) => {
   const { skillIds, ...rest } = input
   return db.project.update({
     data: {
@@ -55,8 +59,17 @@ export const updateProject: MutationResolvers['updateProject'] = ({
   })
 }
 
-export const deleteProject: MutationResolvers['deleteProject'] = ({ id }) => {
+export const deleteProject: MutationResolvers['deleteProject'] = async ({ id }) => {
   return db.project.delete({
     where: { id },
+    include: {
+      skills: true,
+    },
   })
+}
+
+export const Project: ProjectRelationResolvers = {
+  skills: (_obj, { root }) => {
+    return db.project.findUnique({ where: { id: root?.id } }).skills()
+  },
 }
